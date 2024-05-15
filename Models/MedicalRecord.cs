@@ -3,7 +3,9 @@
 public class MedicalRecord
 {
     private int _patientId;
-    private List<string> records = new List<string>();
+    private List<Disease> _diseases = new List<Disease>();
+    private List<Appointment> _appointments = new List<Appointment>();
+    private List<Medication> _medications = new List<Medication>();
 
     public int PatientId
     {
@@ -11,9 +13,21 @@ public class MedicalRecord
         set => _patientId = value;
     }
 
-    public List<string> Records
+    public List<Disease> Diseases
     {
-        get => records;
-        set => records = value ?? throw new ArgumentNullException(nameof(value));
+        get => _diseases;
+        set => _diseases = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public List<Appointment> Appointments
+    {
+        get => _appointments;
+        set => _appointments = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public List<Medication> Medications
+    {
+        get => _medications;
+        set => _medications = value ?? throw new ArgumentNullException(nameof(value));
     }
 }

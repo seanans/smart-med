@@ -2,29 +2,29 @@
 
 public abstract class User
 {
-    private int id;
-    private string username;
-    private string password;
-    private Role role;
-    private string email;
-    private string phoneNumber;
+    private int _id;
+    private string _username;
+    private string _password;
+    private Role _role;
+    private string _email;
+    private string _phoneNumber;
 
     public int Id
     {
-        get => id;
-        set => id = value;
+        get => _id;
+        set => _id = value;
     }
 
     public string Username
     {
-        get => username;
-        set => username = value ?? throw new ArgumentNullException(nameof(value));
+        get => _username;
+        set => _username = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public string Password
     {
-        get => password;
-        set => password = value ?? throw new ArgumentNullException(nameof(value));
+        get => _password;
+        set => _password = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public Role Role
@@ -35,13 +35,13 @@ public abstract class User
 
     public string Email
     {
-        get => email;
-        set => email = value ?? throw new ArgumentNullException(nameof(value));
+        get => _email;
+        set => _email = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public string PhoneNumber
     {
-        get => phoneNumber;
-        set => phoneNumber = value ?? throw new ArgumentNullException(nameof(value));
+        get => _phoneNumber;
+        set => _phoneNumber = value ?? throw new ArgumentNullException(nameof(value));
     }
 }

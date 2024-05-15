@@ -13,5 +13,6 @@ public class Patient : User
     public Patient()
     {
         Role = Role.Patient;
+        MedicalRecord = new MedicalRecord() { PatientId = this.Id };
     }
 }

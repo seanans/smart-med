@@ -1,11 +1,11 @@
 ﻿namespace SmartMed.Models;
 
-public class Medication
+public class Disease
 {
     private int _id;
     private string _name;
     private string _description;
-    private string _dosage;
+    private DateTime _diagnosisDate;
 
     public int Id
     {
@@ -25,9 +25,9 @@ public class Medication
         set => _description = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public string Dosage
+    public DateTime DiagnosisDate
     {
-        get => _dosage;
-        set => _dosage = value ?? throw new ArgumentNullException(nameof(value));
+        get => _diagnosisDate;
+        set => _diagnosisDate = value;
     }
 }

@@ -12,3 +12,5 @@
 /obj/SmartMed.csproj.nuget.g.targets
 /obj/Debug/net8.0/SmartMed.GeneratedMSBuildEditorConfig.editorconfig
 /obj/Debug/net8.0/SmartMed.GlobalUsings.g.cs
+/obj/rider.project.model.nuget.info
+/obj/Debug/net8.0/SmartMed.csproj.AssemblyReference.cache
