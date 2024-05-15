@@ -6,7 +6,7 @@ public class Appointment
     private int _doctorId;
     private int _patientId;
     private DateTime _dateTime;
-    private string symptoms;
+    private string _symptoms;
     private AppointmentStatus _appointmentStatus;
 
     public int Id
@@ -35,8 +35,8 @@ public class Appointment
 
     public string Symptoms
     {
-        get => symptoms;
-        set => symptoms = value ?? throw new ArgumentNullException(nameof(value));
+        get => _symptoms;
+        set => _symptoms = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public AppointmentStatus AppointmentStatus
