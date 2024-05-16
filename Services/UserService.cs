@@ -26,7 +26,7 @@ public class UserService : IUserService
         if (user != null)
         {
             _currentUser = user;
-            Console.WriteLine($"Ласкаво просимо, {user.Username}!");
+            Console.WriteLine($"Ласкаво просимо, {user.Fullname}!");
             return user;
         }
         else
@@ -62,6 +62,9 @@ public class UserService : IUserService
                 break;
             case "2":
                 newUser = new Doctor { Username = username, Password = password, Fullname = fullName, Email = email, PhoneNumber = phoneNumber };
+                Console.Write("Додайте профілі лікаря (через кому): ");
+                string profilesInput = Console.ReadLine();
+                ((Doctor)newUser).Profiles = profilesInput.Split(',').Select(p => p.Trim()).ToList();
                 break;
             default:
                 Console.WriteLine("Неправильний вибір ролі.");

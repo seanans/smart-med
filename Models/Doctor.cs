@@ -18,6 +18,6 @@ public class Doctor : User
 
     public Doctor()
     {
-        Role = Role.Doctor;
+        this.Role = Role.Doctor;
     }
 }

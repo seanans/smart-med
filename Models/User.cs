@@ -30,8 +30,8 @@ public abstract class User
 
     public Role Role
     {
-        get => Role;
-        set => Role = value;
+        get => _role;
+        set => _role = value;
     }
 
     public string Email
