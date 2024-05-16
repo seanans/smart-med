@@ -44,6 +44,8 @@ public class UserService : IUserService
         string username = Console.ReadLine();
         Console.Write("Пароль: ");
         string password = Console.ReadLine();
+        Console.Write("Повне ім'я: ");
+        string fullName = Console.ReadLine();
         Console.Write("Електронна пошта: ");
         string email = Console.ReadLine();
         Console.Write("Номер телефону: ");
@@ -56,10 +58,10 @@ public class UserService : IUserService
         switch (roleChoice)
         {
             case "1":
-                newUser = new Patient { Username = username, Password = password, Email = email, PhoneNumber = phoneNumber };
+                newUser = new Patient { Username = username, Password = password, Fullname = fullName, Email = email, PhoneNumber = phoneNumber };
                 break;
             case "2":
-                newUser = new Doctor { Username = username, Password = password, Email = email, PhoneNumber = phoneNumber };
+                newUser = new Doctor { Username = username, Password = password, Fullname = fullName, Email = email, PhoneNumber = phoneNumber };
                 break;
             default:
                 Console.WriteLine("Неправильний вибір ролі.");
@@ -73,7 +75,7 @@ public class UserService : IUserService
 
     public void SignOut()
     {
-        Console.WriteLine($"До побачення, {_currentUser?.Username}!");
+        Console.WriteLine($"До побачення, {_currentUser.Fullname}!");
         _currentUser = null;
     }
 

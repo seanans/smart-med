@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using SmartMed.Interfaces;
+using SmartMed.Services;
 
 namespace SmartMed
 {
@@ -7,12 +9,17 @@ namespace SmartMed
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            // IUserService userService = new UserService();
-            // IPatientService patientService = new PatientService();
-            // IDoctorService doctorService = new DoctorService();
-            //
-            // Menu menu = new Menu(userService, patientService, doctorService);
-            // menu.DisplayMainMenu();
+            string usersFilePath = "users.json";
+            string appointmentsFilePath = "appointments.json";
+            string medicationsFilePath = "medications.json";
+
+            JsonDataService jsonDataService = new JsonDataService(usersFilePath, appointmentsFilePath, medicationsFilePath);
+             IUserService userService = new UserService(jsonDataService);
+             IPatientService patientService = new PatientService(jsonDataService);
+             IDoctorService doctorService = new DoctorService(jsonDataService);
+            
+             Menu.Menu menu = new Menu.Menu(userService, patientService, doctorService);
+             menu.DisplayMainMenu();
         }
     }
 }

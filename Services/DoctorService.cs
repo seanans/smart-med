@@ -1,8 +1,9 @@
-﻿using SmartMed.Models;
+﻿using SmartMed.Interfaces;
+using SmartMed.Models;
 
 namespace SmartMed.Services;
 
-public class DoctorService
+public class DoctorService : IDoctorService
 {
     private List<User> _users;
     private JsonDataService _jsonDataService;

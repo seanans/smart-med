@@ -5,6 +5,7 @@ public abstract class User
     private int _id;
     private string _username;
     private string _password;
+    private string _fullname;
     private Role _role;
     private string _email;
     private string _phoneNumber;
@@ -43,5 +44,11 @@ public abstract class User
     {
         get => _phoneNumber;
         set => _phoneNumber = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public string Fullname
+    {
+        get => _fullname;
+        set => _fullname = value ?? throw new ArgumentNullException(nameof(value));
     }
 }
