@@ -7,4 +7,5 @@ public interface IUserService
     User SignIn();
     void SignUp();
     void SignOut();
+    User GetCurrentUser();
 }

@@ -5,52 +5,35 @@ namespace SmartMed.Services;
 
 public class JsonDataService
 {
-    private string patientsFilePath;
-        private string doctorsFilePath;
+        private string usersFilePath;
         private string appointmentsFilePath;
         private string medicationsFilePath;
 
-        public JsonDataService(string patientsFilePath, string doctorsFilePath, string appointmentsFilePath, string medicationsFilePath)
+        public JsonDataService(string usersFilePath, string appointmentsFilePath, string medicationsFilePath)
         {
-            this.patientsFilePath = patientsFilePath;
-            this.doctorsFilePath = doctorsFilePath;
+            this.usersFilePath = usersFilePath;
             this.appointmentsFilePath = appointmentsFilePath;
             this.medicationsFilePath = medicationsFilePath;
         }
 
-        public List<Patient> LoadPatients()
+        public List<User> LoadUsers()
         {
-            if (!File.Exists(patientsFilePath))
+            if (!File.Exists(usersFilePath))
             {
-                return new List<Patient>();
+                return new List<User>();
             }
 
-            string jsonData = File.ReadAllText(patientsFilePath);
-            return JsonConvert.DeserializeObject<List<Patient>>(jsonData) ?? new List<Patient>();
+            string jsonData = File.ReadAllText(usersFilePath);
+            return JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
         }
 
-        public void SavePatients(List<Patient> patients)
+        public void SaveUsers(List<User> users)
         {
-            string jsonData = JsonConvert.SerializeObject(patients, Formatting.Indented);
-            File.WriteAllText(patientsFilePath, jsonData);
+            string jsonData = JsonConvert.SerializeObject(users, Formatting.Indented);
+            File.WriteAllText(usersFilePath, jsonData);
         }
 
-        public List<Doctor> LoadDoctors()
-        {
-            if (!File.Exists(doctorsFilePath))
-            {
-                return new List<Doctor>();
-            }
-
-            string jsonData = File.ReadAllText(doctorsFilePath);
-            return JsonConvert.DeserializeObject<List<Doctor>>(jsonData) ?? new List<Doctor>();
-        }
-
-        public void SaveDoctors(List<Doctor> doctors)
-        {
-            string jsonData = JsonConvert.SerializeObject(doctors, Formatting.Indented);
-            File.WriteAllText(doctorsFilePath, jsonData);
-        }
+        
 
         public List<Appointment> LoadAppointments()
         {
