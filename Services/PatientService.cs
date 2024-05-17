@@ -5,71 +5,70 @@ namespace SmartMed.Services;
 
 public class PatientService : IPatientService
 {
-    private List<User> _users;
-    private JsonDataService _jsonDataService;
+    private List<Patient> patients;
+    private JsonDataService jsonDataService;
 
     public PatientService(JsonDataService jsonDataService)
     {
-        _jsonDataService = jsonDataService;
-        _users = jsonDataService.LoadUsers();
+        this.jsonDataService = jsonDataService;
+        patients = jsonDataService.LoadPatients();
     }
 
     public void AddDisease(int patientId, Disease disease)
     {
-        var patient = _users.OfType<Patient>().FirstOrDefault(p => p.Id == patientId);
-        if (patientId != null)
+        var patient = patients.FirstOrDefault(p => p.Id == patientId);
+        if (patient != null)
         {
             patient.MedicalRecord.Diseases.Add(disease);
-            _jsonDataService.SaveUsers(_users);
+            jsonDataService.SavePatients(patients);
         }
     }
 
     public void AddAppointment(int patientId, Appointment appointment)
     {
-        var patient = _users.OfType<Patient>().FirstOrDefault(p => p.Id == patientId);
+        var patient = patients.FirstOrDefault(p => p.Id == patientId);
         if (patient != null)
         {
             patient.MedicalRecord.Appointments.Add(appointment);
-            _jsonDataService.SaveUsers(_users);
+            jsonDataService.SavePatients(patients);
         }
     }
 
     public void AddMedication(int patientId, Medication medication)
     {
-        var patient = _users.OfType<Patient>().FirstOrDefault(p => p.Id == patientId);
+        var patient = patients.FirstOrDefault(p => p.Id == patientId);
         if (patient != null)
         {
             patient.MedicalRecord.Medications.Add(medication);
-            _jsonDataService.SaveUsers(_users);
+            jsonDataService.SavePatients(patients);
         }
     }
 
     public List<Disease> GetDiseases(int patientId)
     {
-        var patient = _users.OfType<Patient>().FirstOrDefault(p => p.Id == patientId);
+        var patient = patients.FirstOrDefault(p => p.Id == patientId);
         return patient?.MedicalRecord.Diseases;
     }
 
     public List<Appointment> GetAppointments(int patientId)
     {
-        var patient = _users.OfType<Patient>().FirstOrDefault(p => p.Id == patientId);
+        var patient = patients.FirstOrDefault(p => p.Id == patientId);
         return patient?.MedicalRecord.Appointments;
     }
 
     public List<Medication> GetMedications(int patientId)
     {
-        var patient = _users.OfType<Patient>().FirstOrDefault(p => p.Id == patientId);
+        var patient = patients.FirstOrDefault(p => p.Id == patientId);
         return patient?.MedicalRecord.Medications;
     }
 
     public void SavePatients(List<Patient> patients)
     {
-        var userPatients = patients.Cast<User>().ToList();
-        _jsonDataService.SaveUsers(userPatients);
+        jsonDataService.SavePatients(patients);
     }
 
     public List<Patient> LoadPatients()
     {
-        return _users.OfType<Patient>().ToList();
+        return patients;
     }
 }

@@ -5,39 +5,38 @@ namespace SmartMed.Services;
 
 public class DoctorService : IDoctorService
 {
-    private List<User> _users;
-    private JsonDataService _jsonDataService;
+    private List<Doctor> doctors;
+    private JsonDataService jsonDataService;
 
     public DoctorService(JsonDataService jsonDataService)
     {
-        _jsonDataService = jsonDataService;
-        _users = jsonDataService.LoadUsers();
+        this.jsonDataService = jsonDataService;
+        doctors = jsonDataService.LoadDoctors();
     }
-    
+
     public void AddAppointment(Appointment appointment)
     {
-        var doctor = _users.OfType<Doctor>().FirstOrDefault(d => d.Id == appointment.DoctorId);
+        var doctor = doctors.FirstOrDefault(d => d.Id == appointment.DoctorId);
         if (doctor != null)
         {
             doctor.Appointments.Add(appointment);
-            _jsonDataService.SaveUsers(_users);
+            jsonDataService.SaveDoctors(doctors);
         }
     }
 
     public List<Appointment> GetAppointments(int doctorId)
     {
-        var doctor = _users.OfType<Doctor>().FirstOrDefault(d => d.Id == doctorId);
+        var doctor = doctors.FirstOrDefault(d => d.Id == doctorId);
         return doctor?.Appointments;
     }
 
     public void SaveDoctors(List<Doctor> doctors)
     {
-        var userDoctors = doctors.Cast<User>().ToList();
-        _jsonDataService.SaveUsers(userDoctors);
+        jsonDataService.SaveDoctors(doctors);
     }
 
     public List<Doctor> LoadDoctors()
     {
-        return _users.OfType<Doctor>().ToList();
+        return doctors;
     }
 }

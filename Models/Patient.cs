@@ -1,18 +1,7 @@
-﻿namespace SmartMed.Models;
-
-public class Patient : User
+﻿namespace SmartMed.Models
 {
-    private MedicalRecord _medicalRecord;
-
-    public MedicalRecord MedicalRecord
+    public class Patient : User
     {
-        get => _medicalRecord;
-        set => _medicalRecord = value;
-    }
-
-    public Patient()
-    {
-        this.Role = Role.Patient;
-        MedicalRecord = new MedicalRecord() { PatientId = this.Id };
+        public MedicalRecord MedicalRecord { get; set; } = new MedicalRecord();
     }
 }

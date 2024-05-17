@@ -1,0 +1,26 @@
+﻿[
+  {
+    "Appointments": [
+      {
+        "Id": 0,
+        "DoctorId": 0,
+        "PatientId": 0,
+        "DateTime": "2024-05-17T17:42:11.8394342+03:00",
+        "Symptoms": "Cardio",
+        "AppointmentStatus": 0
+      }
+    ],
+    "Profiles": [
+      "Onko",
+      "Cardio",
+      "General",
+      "Чіназес"
+    ],
+    "Id": 0,
+    "Username": "drrb",
+    "Password": "drrb",
+    "FullName": "Dr Robert Pawson",
+    "Email": "pawson@example.com",
+    "PhoneNumber": "123-123-321"
+  }
+]

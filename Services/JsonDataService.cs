@@ -1,39 +1,58 @@
-﻿using Newtonsoft.Json;
+﻿
+using System.Text;
+using Newtonsoft.Json;
 using SmartMed.Models;
 
-namespace SmartMed.Services;
-
-public class JsonDataService
+namespace SmartMed.Services
 {
-        private string usersFilePath;
+    public class JsonDataService
+    {
+        private string patientsFilePath;
+        private string doctorsFilePath;
         private string appointmentsFilePath;
         private string medicationsFilePath;
 
-        public JsonDataService(string usersFilePath, string appointmentsFilePath, string medicationsFilePath)
+        public JsonDataService(string patientsFilePath, string doctorsFilePath, string appointmentsFilePath, string medicationsFilePath)
         {
-            this.usersFilePath = usersFilePath;
+            this.patientsFilePath = patientsFilePath;
+            this.doctorsFilePath = doctorsFilePath;
             this.appointmentsFilePath = appointmentsFilePath;
             this.medicationsFilePath = medicationsFilePath;
         }
 
-        public List<User> LoadUsers()
+        public List<Patient> LoadPatients()
         {
-            if (!File.Exists(usersFilePath))
+            if (!File.Exists(patientsFilePath))
             {
-                return new List<User>();
+                return new List<Patient>();
             }
 
-            string jsonData = File.ReadAllText(usersFilePath);
-            return JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
+            string jsonData = File.ReadAllText(patientsFilePath, Encoding.UTF8);
+            return JsonConvert.DeserializeObject<List<Patient>>(jsonData) ?? new List<Patient>();
         }
 
-        public void SaveUsers(List<User> users)
+        public void SavePatients(List<Patient> patients)
         {
-            string jsonData = JsonConvert.SerializeObject(users, Formatting.Indented);
-            File.WriteAllText(usersFilePath, jsonData);
+            string jsonData = JsonConvert.SerializeObject(patients, Formatting.Indented);
+            File.WriteAllText(patientsFilePath, jsonData, Encoding.UTF8);
         }
 
-        
+        public List<Doctor> LoadDoctors()
+        {
+            if (!File.Exists(doctorsFilePath))
+            {
+                return new List<Doctor>();
+            }
+
+            string jsonData = File.ReadAllText(doctorsFilePath, Encoding.UTF8);
+            return JsonConvert.DeserializeObject<List<Doctor>>(jsonData) ?? new List<Doctor>();
+        }
+
+        public void SaveDoctors(List<Doctor> doctors)
+        {
+            string jsonData = JsonConvert.SerializeObject(doctors, Formatting.Indented);
+            File.WriteAllText(doctorsFilePath, jsonData, Encoding.UTF8);
+        }
 
         public List<Appointment> LoadAppointments()
         {
@@ -42,14 +61,14 @@ public class JsonDataService
                 return new List<Appointment>();
             }
 
-            string jsonData = File.ReadAllText(appointmentsFilePath);
+            string jsonData = File.ReadAllText(appointmentsFilePath, System.Text.Encoding.UTF8);
             return JsonConvert.DeserializeObject<List<Appointment>>(jsonData) ?? new List<Appointment>();
         }
 
         public void SaveAppointments(List<Appointment> appointments)
         {
             string jsonData = JsonConvert.SerializeObject(appointments, Formatting.Indented);
-            File.WriteAllText(appointmentsFilePath, jsonData);
+            File.WriteAllText(appointmentsFilePath, jsonData, System.Text.Encoding.UTF8);
         }
 
         public List<Medication> LoadMedications()
@@ -59,14 +78,14 @@ public class JsonDataService
                 return new List<Medication>();
             }
 
-            string jsonData = File.ReadAllText(medicationsFilePath);
+            string jsonData = File.ReadAllText(medicationsFilePath, System.Text.Encoding.UTF8);
             return JsonConvert.DeserializeObject<List<Medication>>(jsonData) ?? new List<Medication>();
         }
 
         public void SaveMedications(List<Medication> medications)
         {
             string jsonData = JsonConvert.SerializeObject(medications, Formatting.Indented);
-            File.WriteAllText(medicationsFilePath, jsonData);
-        }    
-    
+            File.WriteAllText(medicationsFilePath, jsonData, System.Text.Encoding.UTF8);
+        }
+    }
 }

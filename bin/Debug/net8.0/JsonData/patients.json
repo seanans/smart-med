@@ -1,0 +1,25 @@
+﻿[
+  {
+    "MedicalRecord": {
+      "PatientId": 0,
+      "Diseases": [],
+      "Appointments": [
+        {
+          "Id": 0,
+          "DoctorId": 0,
+          "PatientId": 0,
+          "DateTime": "2024-05-17T17:42:11.8394342+03:00",
+          "Symptoms": "Cardio",
+          "AppointmentStatus": 0
+        }
+      ],
+      "Medications": []
+    },
+    "Id": 0,
+    "Username": "simon137",
+    "Password": "password",
+    "FullName": "Simon B Goodman",
+    "Email": "goodman@gmail.com",
+    "PhoneNumber": "111-1111-11"
+  }
+]

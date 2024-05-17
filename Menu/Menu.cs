@@ -1,19 +1,20 @@
-﻿using SmartMed.Interfaces;
+﻿using System.Text;
+using SmartMed.Interfaces;
 using SmartMed.Models;
 
 namespace SmartMed.Menu;
 
 public class Menu
 {
-    private IUserService _userService;
-    private IPatientService _patientService;
-    private IDoctorService _doctorService;
+    private IUserService userService;
+    private IPatientService patientService;
+    private IDoctorService doctorService;
 
     public Menu(IUserService userService, IPatientService patientService, IDoctorService doctorService)
     {
-        _userService = userService;
-        _patientService = patientService;
-        _doctorService = doctorService;
+        this.userService = userService;
+        this.patientService = patientService;
+        this.doctorService = doctorService;
     }
 
     public void DisplayMainMenu()
@@ -28,24 +29,30 @@ public class Menu
             switch (choice)
             {
                 case "1":
-                    User user = _userService.SignIn();
+                    User user = userService.SignIn();
                     if (user != null)
                     {
-                        if (user.Role == Role.Patient)
+                        if (user is Patient)
                         {
                             DisplayPatientMenu(user as Patient);
                         }
-                        else if (user.Role == Role.Doctor)
+                        else if (user is Doctor)
                         {
                             DisplayDoctorMenu(user as Doctor);
                         }
                     }
                     break;
                 case "2":
-                    _userService.SignUp();
+                    userService.SignUp();
                     break;
                 case "3":
                     return;
+                case "4":
+                    File.WriteAllText("JsonData/patients.json", "[]", Encoding.UTF8);
+                    File.WriteAllText("JsonData/doctors.json", "[]", Encoding.UTF8);
+                    File.WriteAllText("JsonData/appointments.json", "[]", Encoding.UTF8);
+                    File.WriteAllText("JsonData/medications.json", "[]", Encoding.UTF8);
+                    break;
                 default:
                     Console.WriteLine("Неправильний вибір. Спробуйте ще раз.");
                     break;
@@ -74,7 +81,7 @@ public class Menu
                     //CancelAppointment(patient);
                     break;
                 case "4":
-                    _userService.SignOut();
+                    userService.SignOut();
                     return;
                 default:
                     Console.WriteLine("Неправильний вибір. Спробуйте ще раз.");
@@ -110,7 +117,7 @@ public class Menu
                     //RecordDiagnosis(doctor);
                     break;
                 case "5":
-                    _userService.SignOut();
+                    userService.SignOut();
                     return;
                 default:
                     Console.WriteLine("Неправильний вибір. Спробуйте ще раз.");
@@ -130,7 +137,7 @@ public class Menu
                 Console.WriteLine("Доступні лікарі для ваших симптомів:");
                 for (int i = 0; i < suitableDoctors.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {suitableDoctors[i].Fullname} - Профілі: {string.Join(", ", suitableDoctors[i].Profiles)}");
+                    Console.WriteLine($"{i + 1}. {suitableDoctors[i].FullName} - Профілі: {string.Join(", ", suitableDoctors[i].Profiles)}");
                 }
                 Console.Write("Виберіть лікаря (введіть номер): ");
                 int doctorIndex = int.Parse(Console.ReadLine()) - 1;
@@ -149,8 +156,8 @@ public class Menu
                         AppointmentStatus = AppointmentStatus.Scheduled
                     };
 
-                    _patientService.AddAppointment(patient.Id, appointment);
-                    _doctorService.AddAppointment(appointment);
+                    patientService.AddAppointment(patient.Id, appointment);
+                    doctorService.AddAppointment(appointment);
                     Console.WriteLine("Запис успішно створений.");
                 }
                 else
@@ -166,7 +173,7 @@ public class Menu
 
         private List<Doctor> FindDoctorsBySymptoms(string symptoms)
         {
-            List<Doctor> allDoctors = _doctorService.LoadDoctors();
+            List<Doctor> allDoctors = doctorService.LoadDoctors();
             List<Doctor> suitableDoctors = new List<Doctor>();
 
             foreach (var doctor in allDoctors)
