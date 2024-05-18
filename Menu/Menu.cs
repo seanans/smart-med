@@ -131,43 +131,84 @@ public class Menu
         var symptoms = Console.ReadLine();
 
         var suitableDoctors = FindDoctorsBySymptoms(symptoms);
-
-        if (suitableDoctors.Any())
-        {
-            Console.WriteLine("Доступні лікарі для ваших симптомів:");
-            for (var i = 0; i < suitableDoctors.Count; i++)
-                Console.WriteLine(
-                    $"{i + 1}. {suitableDoctors[i].FullName} - Профілі: {string.Join(", ", suitableDoctors[i].Profiles)}");
-            Console.Write("Виберіть лікаря (введіть номер): ");
-            var doctorIndex = int.Parse(Console.ReadLine()) - 1;
-
-            if (doctorIndex >= 0 && doctorIndex < suitableDoctors.Count)
-            {
-                var chosenDoctor = suitableDoctors[doctorIndex];
-                var date = DateTime.Now; // тут може бути введення дати користувачем
-
-                var appointment = new Appointment
-                {
-                    DoctorId = chosenDoctor.Id,
-                    PatientId = patient.Id,
-                    DateTime = date,
-                    Symptoms = symptoms,
-                    AppointmentStatus = AppointmentStatus.Scheduled
-                };
-
-                _patientService.AddAppointment(patient.Id, appointment);
-                _doctorService.AddAppointment(appointment);
-                Console.WriteLine("Запис успішно створений.");
-            }
-            else
-            {
-                Console.WriteLine("Неправильний вибір лікаря.");
-            }
-        }
-        else
+        if (!suitableDoctors.Any())
         {
             Console.WriteLine("Немає доступних лікарів для ваших симптомів.");
+            return;
         }
+
+        Doctor chosenDoctor;
+        while ((chosenDoctor = ChooseDoctor(suitableDoctors)) == null)
+            Console.WriteLine("Неправильний вибір лікаря. Спробуйте ще раз.");
+
+        string chosenDay;
+        while ((chosenDay = ChooseDay(chosenDoctor)) == null)
+            Console.WriteLine("Неправильний вибір дня. Спробуйте ще раз.");
+
+        var availableTimes = GetAvailableTimes(chosenDoctor, chosenDay);
+        if (!availableTimes.Any())
+        {
+            Console.WriteLine("Немає доступних годин для обраного дня.");
+            return;
+        }
+
+        string chosenTime;
+        while ((chosenTime = ChooseTime(availableTimes)) == null)
+            Console.WriteLine("Неправильний вибір часу. Спробуйте ще раз.");
+
+        var chosenDateTime = DateTime.ParseExact($"{chosenDay} {chosenTime}", "dddd HH:mm", null);
+        var appointment = new Appointment
+        {
+            DoctorId = chosenDoctor.Id,
+            PatientId = patient.Id,
+            DateTime = chosenDateTime,
+            Symptoms = symptoms,
+            AppointmentStatus = AppointmentStatus.Scheduled
+        };
+
+        _patientService.AddAppointment(patient.Id, appointment);
+        _doctorService.AddAppointment(appointment);
+        Console.WriteLine("Запис успішно створений.");
+    }
+
+    private string? ChooseDay(Doctor doctor)
+    {
+        Console.WriteLine("Доступні дні для запису:");
+        foreach (var day in doctor.Schedule.Keys) Console.WriteLine(day);
+        Console.Write("Виберіть день (введіть назву дня): ");
+        var chosenDay = Console.ReadLine();
+        return doctor.Schedule.ContainsKey(chosenDay) ? chosenDay : null;
+    }
+
+    private List<string> GetAvailableTimes(Doctor doctor, string chosenDay)
+    {
+        var availableTimes = new List<string>(doctor.Schedule[chosenDay]);
+        foreach (var appointment in doctor.Appointments)
+            if (appointment.DateTime.ToString("dddd") == chosenDay)
+                availableTimes.Remove(appointment.DateTime.ToString("HH:mm"));
+        return availableTimes;
+    }
+
+    private Doctor? ChooseDoctor(List<Doctor> suitableDoctors)
+    {
+        Console.WriteLine("Доступні лікарі для ваших симптомів:");
+        for (var i = 0; i < suitableDoctors.Count; i++)
+            Console.WriteLine(
+                $"{i + 1}. {suitableDoctors[i].FullName} - Профілі: {string.Join(", ", suitableDoctors[i].Profiles)}");
+        Console.Write("Виберіть лікаря (введіть номер): ");
+        if (int.TryParse(Console.ReadLine(), out var doctorIndex) && doctorIndex > 0 &&
+            doctorIndex <= suitableDoctors.Count) return suitableDoctors[doctorIndex - 1];
+        return null;
+    }
+
+    private string ChooseTime(List<string> availableTimes)
+    {
+        Console.WriteLine("Доступні години для запису:");
+        for (var i = 0; i < availableTimes.Count; i++) Console.WriteLine($"{i + 1}. {availableTimes[i]}");
+        Console.Write("Виберіть час (введіть номер): ");
+        if (int.TryParse(Console.ReadLine(), out var timeIndex) && timeIndex > 0 && timeIndex <= availableTimes.Count)
+            return availableTimes[timeIndex - 1];
+        return null;
     }
 
     private List<Doctor> FindDoctorsBySymptoms(string symptoms)
