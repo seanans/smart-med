@@ -1,13 +1,45 @@
 ﻿[
   {
-    "Appointments": [],
+    "Appointments": [
+      {
+        "Id": 0,
+        "DoctorId": 1,
+        "PatientId": 0,
+        "DateTime": "2024-05-20T09:00:00",
+        "Symptoms": "Аритмія",
+        "AppointmentStatus": 0
+      }
+    ],
     "Profiles": [
       "Кардіологія"
     ],
+    "Schedule": {
+      "понеділок": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "середа": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "п'ятниця": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ]
+    },
     "Id": 1,
     "Username": "drsmith",
     "Password": "password123",
-    "FullName": "Dr. John Smith",
+    "FullName": "Джон Сміт",
     "Email": "john.smith@example.com",
     "PhoneNumber": "555-1234"
   },
@@ -16,10 +48,26 @@
     "Profiles": [
       "Онкологія"
     ],
+    "Schedule": {
+      "вівторок": [
+        "10:00",
+        "11:00",
+        "12:00",
+        "15:00",
+        "16:00"
+      ],
+      "четвер": [
+        "10:00",
+        "11:00",
+        "12:00",
+        "15:00",
+        "16:00"
+      ]
+    },
     "Id": 2,
     "Username": "drbrown",
     "Password": "password456",
-    "FullName": "Dr. Emily Brown",
+    "FullName": "Емілі Браун",
     "Email": "emily.brown@example.com",
     "PhoneNumber": "555-5678"
   },
@@ -28,10 +76,33 @@
     "Profiles": [
       "Загальна практика"
     ],
+    "Schedule": {
+      "понеділок": [
+        "08:00",
+        "09:00",
+        "10:00",
+        "13:00",
+        "14:00"
+      ],
+      "середа": [
+        "08:00",
+        "09:00",
+        "10:00",
+        "13:00",
+        "14:00"
+      ],
+      "п'ятниця": [
+        "08:00",
+        "09:00",
+        "10:00",
+        "13:00",
+        "14:00"
+      ]
+    },
     "Id": 3,
     "Username": "drjones",
     "Password": "password789",
-    "FullName": "Dr. Michael Jones",
+    "FullName": "Майкл Джонс",
     "Email": "michael.jones@example.com",
     "PhoneNumber": "555-9101"
   },
@@ -40,10 +111,33 @@
     "Profiles": [
       "Неврологія"
     ],
+    "Schedule": {
+      "понеділок": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "четвер": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "субота": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ]
+    },
     "Id": 4,
     "Username": "drlee",
     "Password": "password321",
-    "FullName": "Dr. Susan Lee",
+    "FullName": "Сьюзен Лі",
     "Email": "susan.lee@example.com",
     "PhoneNumber": "555-1122"
   },
@@ -53,7 +147,7 @@
         "Id": 0,
         "DoctorId": 5,
         "PatientId": 0,
-        "DateTime": "2024-05-18T14:13:22.3170146+03:00",
+        "DateTime": "0001-01-01T00:00:00",
         "Symptoms": "висипка, свербіж, почервоніння",
         "AppointmentStatus": 0
       }
@@ -61,10 +155,33 @@
     "Profiles": [
       "Дерматологія"
     ],
+    "Schedule": {
+      "вівторок": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "середа": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "четвер": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ]
+    },
     "Id": 5,
     "Username": "drwilson",
     "Password": "password654",
-    "FullName": "Dr. Robert Wilson",
+    "FullName": "Роберт Вілсон",
     "Email": "robert.wilson@example.com",
     "PhoneNumber": "555-3344"
   },
@@ -73,10 +190,33 @@
     "Profiles": [
       "Ендокринологія"
     ],
+    "Schedule": {
+      "понеділок": [
+        "08:00",
+        "09:00",
+        "10:00",
+        "13:00",
+        "14:00"
+      ],
+      "вівторок": [
+        "08:00",
+        "09:00",
+        "10:00",
+        "13:00",
+        "14:00"
+      ],
+      "п'ятниця": [
+        "08:00",
+        "09:00",
+        "10:00",
+        "13:00",
+        "14:00"
+      ]
+    },
     "Id": 6,
     "Username": "drmartin",
     "Password": "password987",
-    "FullName": "Dr. Linda Martin",
+    "FullName": "Лінда Мартін",
     "Email": "linda.martin@example.com",
     "PhoneNumber": "555-5566"
   },
@@ -85,10 +225,33 @@
     "Profiles": [
       "Гастроентерологія"
     ],
+    "Schedule": {
+      "понеділок": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "четвер": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "субота": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ]
+    },
     "Id": 7,
     "Username": "drwhite",
     "Password": "password432",
-    "FullName": "Dr. David White",
+    "FullName": "Девід Вайт",
     "Email": "david.white@example.com",
     "PhoneNumber": "555-7788"
   },
@@ -97,10 +260,33 @@
     "Profiles": [
       "Пульмонологія"
     ],
+    "Schedule": {
+      "середа": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "четвер": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "п'ятниця": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ]
+    },
     "Id": 8,
     "Username": "drthompson",
     "Password": "password1234",
-    "FullName": "Dr. Patricia Thompson",
+    "FullName": "Патрісія Томпсон",
     "Email": "patricia.thompson@example.com",
     "PhoneNumber": "555-9900"
   },
@@ -110,7 +296,7 @@
         "Id": 0,
         "DoctorId": 9,
         "PatientId": 0,
-        "DateTime": "2024-05-18T14:12:30.9747595+03:00",
+        "DateTime": "0001-01-01T00:00:00",
         "Symptoms": "втрата ваги",
         "AppointmentStatus": 0
       }
@@ -118,10 +304,33 @@
     "Profiles": [
       "Ревматологія"
     ],
+    "Schedule": {
+      "вівторок": [
+        "08:00",
+        "09:00",
+        "10:00",
+        "13:00",
+        "14:00"
+      ],
+      "четвер": [
+        "08:00",
+        "09:00",
+        "10:00",
+        "13:00",
+        "14:00"
+      ],
+      "субота": [
+        "08:00",
+        "09:00",
+        "10:00",
+        "13:00",
+        "14:00"
+      ]
+    },
     "Id": 9,
     "Username": "dranderson",
     "Password": "password5678",
-    "FullName": "Dr. Charles Anderson",
+    "FullName": "Чарльз Андерсон",
     "Email": "charles.anderson@example.com",
     "PhoneNumber": "555-1123"
   },
@@ -130,10 +339,33 @@
     "Profiles": [
       "Урологія"
     ],
+    "Schedule": {
+      "понеділок": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "середа": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ],
+      "п'ятниця": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "15:00"
+      ]
+    },
     "Id": 10,
     "Username": "drwalker",
     "Password": "password8765",
-    "FullName": "Dr. Barbara Walker",
+    "FullName": "Барбара Вокер",
     "Email": "barbara.walker@example.com",
     "PhoneNumber": "555-4455"
   }
