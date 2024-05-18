@@ -8,6 +8,22 @@
         "DateTime": "2024-05-20T09:00:00",
         "Symptoms": "Аритмія",
         "AppointmentStatus": 0
+      },
+      {
+        "Id": 0,
+        "DoctorId": 1,
+        "PatientId": 0,
+        "DateTime": "2024-05-20T10:00:00",
+        "Symptoms": "Аритмія",
+        "AppointmentStatus": 0
+      },
+      {
+        "Id": 0,
+        "DoctorId": 1,
+        "PatientId": 0,
+        "DateTime": "2024-05-20T11:00:00",
+        "Symptoms": "аритмія",
+        "AppointmentStatus": 0
       }
     ],
     "Profiles": [
