@@ -12,13 +12,15 @@ public class Menu
     private readonly IPatientService _patientService;
     private readonly Dictionary<string, List<string>> _symptomProfiles;
     private readonly IUserService _userService;
+    private readonly IMedicalRecordService _medicalRecordService;
 
     public Menu(IUserService userService, IPatientService patientService, IDoctorService doctorService,
-        JsonDataService jsonDataService)
+        JsonDataService jsonDataService, IMedicalRecordService medicalRecordService)
     {
         _userService = userService;
         _patientService = patientService;
         _doctorService = doctorService;
+        _medicalRecordService = medicalRecordService;
         _symptomProfiles = jsonDataService.LoadSymptomProfiles();
     }
 
@@ -75,7 +77,7 @@ public class Menu
                     CreateAppointment(patient);
                     break;
                 case "2":
-                    // DisplayMedicalRecord(patient);
+                    DisplayMedicalRecord(patient);
                     break;
                 case "3":
                     //CancelAppointment(patient);
@@ -90,6 +92,93 @@ public class Menu
         }
     }
 
+    private void DisplayMedicalRecord(Patient patient)
+    {
+        while (true)
+        {
+            Console.WriteLine("Медична карта:");
+            Console.WriteLine("1. Переглянути хвороби");
+            Console.WriteLine("2. Переглянути зустрічі");
+            Console.WriteLine("3. Призначені ліки");
+            Console.WriteLine("4. Назад");
+
+            var choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "1":
+                    DisplayDiseases(patient.MedicalRecord.Diseases);
+                    break;
+                case "2":
+                    DisplayAppointments(patient.MedicalRecord.Appointments);
+                    break;
+                case "3":
+                    DisplayMedications(patient.MedicalRecord.Medications);
+                    break;
+                case "4":
+                    return;
+                default:
+                    Console.WriteLine("Неправильний вибір. Спробуйте ще раз.");
+                    break;
+            }
+        }
+    }
+    
+    private void DisplayDiseases(List<Disease> diseases)
+    {
+        if (!diseases.Any())
+        {
+            Console.WriteLine("Немає зареєстрованих хвороб.");
+            return;
+        }
+
+        Console.WriteLine("Хвороби:");
+        for (int i = 0; i < diseases.Count; i++)
+        {
+            var disease = diseases[i];
+            Console.WriteLine($"{i + 1}. Назва: {disease.Name}, Опис: {disease.Description}, Дата діагнозу: {disease.DiagnosisDate}");
+        }
+
+        Console.WriteLine("Натисніть будь-яку клавішу для повернення до медичної карти.");
+        Console.ReadKey();
+    }
+    
+    private void DisplayAppointments(List<Appointment> appointments)
+    {
+        if (!appointments.Any())
+        {
+            Console.WriteLine("Немає запланованих зустрічей.");
+            return;
+        }
+
+        Console.WriteLine("Зустрічі:");
+        for (int i = 0; i < appointments.Count; i++)
+        {
+            var appointment = appointments[i];
+            Console.WriteLine($"{i + 1}. Дата: {appointment.DateTime}, Симптоми: {appointment.Symptoms}, Статус: {appointment.AppointmentStatus}");
+        }
+
+        Console.WriteLine("Натисніть будь-яку клавішу для повернення до медичної карти.");
+        Console.ReadKey();
+    }
+    
+    private void DisplayMedications(List<Medication> medications)
+    {
+        if (!medications.Any())
+        {
+            Console.WriteLine("Немає призначених ліків.");
+            return;
+        }
+
+        Console.WriteLine("Ліки:");
+        for (int i = 0; i < medications.Count; i++)
+        {
+            var medication = medications[i];
+            Console.WriteLine($"{i + 1}. Назва: {medication.Name}, Опис: {medication.Description}, Дозування: {medication.Dosage}");
+        }
+
+        Console.WriteLine("Натисніть будь-яку клавішу для повернення до медичної карти.");
+        Console.ReadKey();
+    }
 
     private void DisplayDoctorMenu(Doctor doctor)
     {

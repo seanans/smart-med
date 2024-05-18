@@ -103,5 +103,63 @@
     "FullName": "ivan zolo",
     "Email": "zolo@aaa.aaa",
     "PhoneNumber": "1"
+  },
+  {
+    "Id": 1,
+    "Username": "patient1",
+    "Password": "password1",
+    "FullName": "Іван Іванов",
+    "Email": "ivan.ivanov@example.com",
+    "PhoneNumber": "555-1111",
+    "MedicalRecord": {
+      "PatientId": 1,
+      "Diseases": [
+        {
+          "Id": 1,
+          "Name": "Грип",
+          "Description": "Гостре вірусне захворювання дихальних шляхів.",
+          "DiagnosisDate": "2023-01-15T00:00:00"
+        },
+        {
+          "Id": 2,
+          "Name": "Бронхіт",
+          "Description": "Запалення бронхів, часто ускладнення після грипу.",
+          "DiagnosisDate": "2023-02-10T00:00:00"
+        }
+      ],
+      "Appointments": [
+        {
+          "Id": 3,
+          "DoctorId": 1,
+          "PatientId": 3,
+          "DateTime": "2023-03-01T10:00:00",
+          "Symptoms": "Кашель, біль у грудях.",
+          "AppointmentStatus": "Completed"
+        },
+        {
+          "Id": 2,
+          "DoctorId": 2,
+          "PatientId": 3,
+          "DateTime": "2023-04-01T11:00:00",
+          "Symptoms": "Біль у горлі, підвищена температура.",
+          "AppointmentStatus": "Scheduled"
+        }
+      ],
+      "Medications": [
+        {
+          "Id": 1,
+          "Name": "Парацетамол",
+          "Description": "Жарознижуючий та знеболювальний засіб.",
+          "Dosage": "500 мг, двічі на день"
+        },
+        {
+          "Id": 2,
+          "Name": "Амоксицилін",
+          "Description": "Антибіотик широкого спектру дії.",
+          "Dosage": "250 мг, тричі на день"
+        }
+      ]
+    }
   }
+
 ]

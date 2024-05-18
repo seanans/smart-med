@@ -26,8 +26,9 @@ internal static class Program
         IUserService userService = new UserService(jsonDataService);
         IPatientService patientService = new PatientService(jsonDataService);
         IDoctorService doctorService = new DoctorService(jsonDataService);
+        IMedicalRecordService medicalRecordService = new MedicalRecordService(jsonDataService);
 
-        var menu = new Menu.Menu(userService, patientService, doctorService, jsonDataService);
+        var menu = new Menu.Menu(userService, patientService, doctorService, jsonDataService, medicalRecordService);
         menu.DisplayMainMenu();
     }
 }
