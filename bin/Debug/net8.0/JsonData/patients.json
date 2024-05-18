@@ -89,5 +89,19 @@
     "FullName": "A A",
     "Email": "A@example.com",
     "PhoneNumber": "1-11-1"
+  },
+  {
+    "MedicalRecord": {
+      "PatientId": 0,
+      "Diseases": [],
+      "Appointments": [],
+      "Medications": []
+    },
+    "Id": 2,
+    "Username": "iva",
+    "Password": "iva",
+    "FullName": "ivan zolo",
+    "Email": "zolo@aaa.aaa",
+    "PhoneNumber": "1"
   }
 ]
