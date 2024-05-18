@@ -5,38 +5,36 @@ namespace SmartMed.Services;
 
 public class UserService : IUserService
 {
-    private List<Patient> patients;
-    private List<Doctor> doctors;
-    private JsonDataService jsonDataService;
-    private User currentUser;
+    private User _currentUser;
+    private readonly List<Doctor> _doctors;
+    private readonly JsonDataService _jsonDataService;
+    private readonly List<Patient> _patients;
 
     public UserService(JsonDataService jsonDataService)
     {
-        this.jsonDataService = jsonDataService;
-        patients = jsonDataService.LoadPatients();
-        doctors = jsonDataService.LoadDoctors();
+        this._jsonDataService = jsonDataService;
+        _patients = jsonDataService.LoadPatients();
+        _doctors = jsonDataService.LoadDoctors();
     }
 
     public User SignIn()
     {
         Console.Write("Ім'я користувача: ");
-        string username = Console.ReadLine();
+        var username = Console.ReadLine();
         Console.Write("Пароль: ");
-        string password = Console.ReadLine();
+        var password = Console.ReadLine();
 
-        User user = (User)patients.FirstOrDefault(u => u.Username == username && u.Password == password)
-                    ?? doctors.FirstOrDefault(u => u.Username == username && u.Password == password);
+        var user = (User)_patients.FirstOrDefault(u => u.Username == username && u.Password == password)
+                   ?? _doctors.FirstOrDefault(u => u.Username == username && u.Password == password);
         if (user != null)
         {
-            currentUser = user;
+            _currentUser = user;
             Console.WriteLine($"Ласкаво просимо, {user.FullName}!");
             return user;
         }
-        else
-        {
-            Console.WriteLine("Неправильні дані.");
-            return null;
-        }
+
+        Console.WriteLine("Неправильні дані.");
+        return null;
     }
 
     public void SignUp()
@@ -44,50 +42,59 @@ public class UserService : IUserService
         Console.WriteLine("Реєстрація");
 
         Console.Write("Ім'я користувача: ");
-        string username = Console.ReadLine();
+        var username = Console.ReadLine();
         Console.Write("Пароль: ");
-        string password = Console.ReadLine();
+        var password = Console.ReadLine();
         Console.Write("Повне ім'я: ");
-        string fullName = Console.ReadLine();
+        var fullName = Console.ReadLine();
         Console.Write("Електронна пошта: ");
-        string email = Console.ReadLine();
+        var email = Console.ReadLine();
         Console.Write("Номер телефону: ");
-        string phoneNumber = Console.ReadLine();
+        var phoneNumber = Console.ReadLine();
 
         Console.WriteLine("Виберіть роль: 1 - Пацієнт, 2 - Лікар");
-        string roleChoice = Console.ReadLine();
-        
+        var roleChoice = Console.ReadLine();
+
         User newUser;
         switch (roleChoice)
         {
             case "1":
-                newUser = new Patient { Username = username, Password = password, FullName = fullName, Email = email, PhoneNumber = phoneNumber };
-                patients.Add((Patient)newUser);
-                jsonDataService.SavePatients(patients);
+                newUser = new Patient
+                {
+                    Username = username, Password = password, FullName = fullName, Email = email,
+                    PhoneNumber = phoneNumber
+                };
+                _patients.Add((Patient)newUser);
+                _jsonDataService.SavePatients(_patients);
                 break;
             case "2":
-                newUser = new Doctor { Username = username, Password = password, FullName = fullName, Email = email, PhoneNumber = phoneNumber };
+                newUser = new Doctor
+                {
+                    Username = username, Password = password, FullName = fullName, Email = email,
+                    PhoneNumber = phoneNumber
+                };
                 Console.Write("Додайте профілі лікаря (через кому): ");
-                string profilesInput = Console.ReadLine();
+                var profilesInput = Console.ReadLine();
                 ((Doctor)newUser).Profiles = profilesInput.Split(',').Select(p => p.Trim()).ToList();
-                doctors.Add((Doctor)newUser);
-                jsonDataService.SaveDoctors(doctors);
+                _doctors.Add((Doctor)newUser);
+                _jsonDataService.SaveDoctors(_doctors);
                 break;
             default:
                 Console.WriteLine("Неправильний вибір ролі.");
                 return;
         }
+
         Console.WriteLine("Реєстрація успішна!");
     }
 
     public void SignOut()
     {
-        Console.WriteLine($"До побачення, {currentUser?.FullName}!");
-        currentUser = null;
+        Console.WriteLine($"До побачення, {_currentUser?.FullName}!");
+        _currentUser = null;
     }
 
     public User GetCurrentUser()
     {
-        return currentUser;
+        return _currentUser;
     }
 }

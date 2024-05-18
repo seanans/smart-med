@@ -2,6 +2,6 @@
 
 public class Doctor : User
 {
-    public List<Appointment> Appointments { get; set; } = new List<Appointment>();
-    public List<string> Profiles { get; set; } = new List<string>();
+    public List<Appointment> Appointments { get; set; } = new();
+    public List<string> Profiles { get; set; } = new();
 }

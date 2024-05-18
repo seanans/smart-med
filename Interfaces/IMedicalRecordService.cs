@@ -2,7 +2,7 @@
 
 namespace SmartMed.Interfaces;
 
-public interface  IMedicalRecordService
+public interface IMedicalRecordService
 {
     MedicalRecord GetMedicalRecord(int patientId);
     void SaveMedicalRecords(List<MedicalRecord> medicalRecords);

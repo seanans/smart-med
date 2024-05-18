@@ -1,91 +1,78 @@
-﻿
-using System.Text;
+﻿using System.Text;
 using Newtonsoft.Json;
 using SmartMed.Models;
 
-namespace SmartMed.Services
+namespace SmartMed.Services;
+
+public class JsonDataService
 {
-    public class JsonDataService
+    private readonly string _appointmentsFilePath;
+    private readonly string _doctorsFilePath;
+    private readonly string _medicationsFilePath;
+    private readonly string _patientsFilePath;
+
+    public JsonDataService(string patientsFilePath, string doctorsFilePath, string appointmentsFilePath,
+        string medicationsFilePath)
     {
-        private string patientsFilePath;
-        private string doctorsFilePath;
-        private string appointmentsFilePath;
-        private string medicationsFilePath;
+        this._patientsFilePath = patientsFilePath;
+        this._doctorsFilePath = doctorsFilePath;
+        this._appointmentsFilePath = appointmentsFilePath;
+        this._medicationsFilePath = medicationsFilePath;
+    }
 
-        public JsonDataService(string patientsFilePath, string doctorsFilePath, string appointmentsFilePath, string medicationsFilePath)
-        {
-            this.patientsFilePath = patientsFilePath;
-            this.doctorsFilePath = doctorsFilePath;
-            this.appointmentsFilePath = appointmentsFilePath;
-            this.medicationsFilePath = medicationsFilePath;
-        }
+    public List<Patient> LoadPatients()
+    {
+        if (!File.Exists(_patientsFilePath)) return new List<Patient>();
 
-        public List<Patient> LoadPatients()
-        {
-            if (!File.Exists(patientsFilePath))
-            {
-                return new List<Patient>();
-            }
+        var jsonData = File.ReadAllText(_patientsFilePath, Encoding.UTF8);
+        return JsonConvert.DeserializeObject<List<Patient>>(jsonData) ?? new List<Patient>();
+    }
 
-            string jsonData = File.ReadAllText(patientsFilePath, Encoding.UTF8);
-            return JsonConvert.DeserializeObject<List<Patient>>(jsonData) ?? new List<Patient>();
-        }
+    public void SavePatients(List<Patient> patients)
+    {
+        var jsonData = JsonConvert.SerializeObject(patients, Formatting.Indented);
+        File.WriteAllText(_patientsFilePath, jsonData, Encoding.UTF8);
+    }
 
-        public void SavePatients(List<Patient> patients)
-        {
-            string jsonData = JsonConvert.SerializeObject(patients, Formatting.Indented);
-            File.WriteAllText(patientsFilePath, jsonData, Encoding.UTF8);
-        }
+    public List<Doctor> LoadDoctors()
+    {
+        if (!File.Exists(_doctorsFilePath)) return new List<Doctor>();
 
-        public List<Doctor> LoadDoctors()
-        {
-            if (!File.Exists(doctorsFilePath))
-            {
-                return new List<Doctor>();
-            }
+        var jsonData = File.ReadAllText(_doctorsFilePath, Encoding.UTF8);
+        return JsonConvert.DeserializeObject<List<Doctor>>(jsonData) ?? new List<Doctor>();
+    }
 
-            string jsonData = File.ReadAllText(doctorsFilePath, Encoding.UTF8);
-            return JsonConvert.DeserializeObject<List<Doctor>>(jsonData) ?? new List<Doctor>();
-        }
+    public void SaveDoctors(List<Doctor> doctors)
+    {
+        var jsonData = JsonConvert.SerializeObject(doctors, Formatting.Indented);
+        File.WriteAllText(_doctorsFilePath, jsonData, Encoding.UTF8);
+    }
 
-        public void SaveDoctors(List<Doctor> doctors)
-        {
-            string jsonData = JsonConvert.SerializeObject(doctors, Formatting.Indented);
-            File.WriteAllText(doctorsFilePath, jsonData, Encoding.UTF8);
-        }
+    public List<Appointment> LoadAppointments()
+    {
+        if (!File.Exists(_appointmentsFilePath)) return new List<Appointment>();
 
-        public List<Appointment> LoadAppointments()
-        {
-            if (!File.Exists(appointmentsFilePath))
-            {
-                return new List<Appointment>();
-            }
+        var jsonData = File.ReadAllText(_appointmentsFilePath, Encoding.UTF8);
+        return JsonConvert.DeserializeObject<List<Appointment>>(jsonData) ?? new List<Appointment>();
+    }
 
-            string jsonData = File.ReadAllText(appointmentsFilePath, System.Text.Encoding.UTF8);
-            return JsonConvert.DeserializeObject<List<Appointment>>(jsonData) ?? new List<Appointment>();
-        }
+    public void SaveAppointments(List<Appointment> appointments)
+    {
+        var jsonData = JsonConvert.SerializeObject(appointments, Formatting.Indented);
+        File.WriteAllText(_appointmentsFilePath, jsonData, Encoding.UTF8);
+    }
 
-        public void SaveAppointments(List<Appointment> appointments)
-        {
-            string jsonData = JsonConvert.SerializeObject(appointments, Formatting.Indented);
-            File.WriteAllText(appointmentsFilePath, jsonData, System.Text.Encoding.UTF8);
-        }
+    public List<Medication> LoadMedications()
+    {
+        if (!File.Exists(_medicationsFilePath)) return new List<Medication>();
 
-        public List<Medication> LoadMedications()
-        {
-            if (!File.Exists(medicationsFilePath))
-            {
-                return new List<Medication>();
-            }
+        var jsonData = File.ReadAllText(_medicationsFilePath, Encoding.UTF8);
+        return JsonConvert.DeserializeObject<List<Medication>>(jsonData) ?? new List<Medication>();
+    }
 
-            string jsonData = File.ReadAllText(medicationsFilePath, System.Text.Encoding.UTF8);
-            return JsonConvert.DeserializeObject<List<Medication>>(jsonData) ?? new List<Medication>();
-        }
-
-        public void SaveMedications(List<Medication> medications)
-        {
-            string jsonData = JsonConvert.SerializeObject(medications, Formatting.Indented);
-            File.WriteAllText(medicationsFilePath, jsonData, System.Text.Encoding.UTF8);
-        }
+    public void SaveMedications(List<Medication> medications)
+    {
+        var jsonData = JsonConvert.SerializeObject(medications, Formatting.Indented);
+        File.WriteAllText(_medicationsFilePath, jsonData, Encoding.UTF8);
     }
 }

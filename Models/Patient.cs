@@ -1,7 +1,6 @@
-﻿namespace SmartMed.Models
+﻿namespace SmartMed.Models;
+
+public class Patient : User
 {
-    public class Patient : User
-    {
-        public MedicalRecord MedicalRecord { get; set; } = new MedicalRecord();
-    }
+    public MedicalRecord MedicalRecord { get; set; } = new();
 }

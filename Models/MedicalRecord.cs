@@ -2,16 +2,11 @@
 
 public class MedicalRecord
 {
-    private int _patientId;
-    private List<Disease> _diseases = new List<Disease>();
-    private List<Appointment> _appointments = new List<Appointment>();
-    private List<Medication> _medications = new List<Medication>();
+    private List<Appointment> _appointments = [];
+    private List<Disease> _diseases = [];
+    private List<Medication> _medications = [];
 
-    public int PatientId
-    {
-        get => _patientId;
-        set => _patientId = value;
-    }
+    public int PatientId { get; set; }
 
     public List<Disease> Diseases
     {

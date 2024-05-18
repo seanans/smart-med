@@ -21,5 +21,19 @@
     "FullName": "Simon B Goodman",
     "Email": "goodman@gmail.com",
     "PhoneNumber": "111-1111-11"
+  },
+  {
+    "MedicalRecord": {
+      "PatientId": 0,
+      "Diseases": [],
+      "Appointments": [],
+      "Medications": []
+    },
+    "Id": 0,
+    "Username": "Aboba",
+    "Password": "a",
+    "FullName": "Aboba BOba",
+    "Email": "s@i.ex",
+    "PhoneNumber": "123-321-3332"
   }
 ]

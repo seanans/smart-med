@@ -6,15 +6,15 @@ namespace SmartMed.Menu;
 
 public class Menu
 {
-    private IUserService userService;
-    private IPatientService patientService;
-    private IDoctorService doctorService;
+    private readonly IDoctorService _doctorService;
+    private readonly IPatientService _patientService;
+    private readonly IUserService _userService;
 
     public Menu(IUserService userService, IPatientService patientService, IDoctorService doctorService)
     {
-        this.userService = userService;
-        this.patientService = patientService;
-        this.doctorService = doctorService;
+        this._userService = userService;
+        this._patientService = patientService;
+        this._doctorService = doctorService;
     }
 
     public void DisplayMainMenu()
@@ -24,26 +24,20 @@ public class Menu
             Console.WriteLine("1. Увійти");
             Console.WriteLine("2. Зареєструватися");
             Console.WriteLine("3. Вийти");
-            string choice = Console.ReadLine();
+            var choice = Console.ReadLine();
 
             switch (choice)
             {
                 case "1":
-                    User user = userService.SignIn();
-                    if (user != null)
-                    {
-                        if (user is Patient)
-                        {
-                            DisplayPatientMenu(user as Patient);
-                        }
-                        else if (user is Doctor)
-                        {
-                            DisplayDoctorMenu(user as Doctor);
-                        }
-                    }
+                    var user = _userService.SignIn();
+                    if (user is Patient)
+                        DisplayPatientMenu(user as Patient);
+                    else if (user is Doctor)
+                        DisplayDoctorMenu(user as Doctor);
+
                     break;
                 case "2":
-                    userService.SignUp();
+                    _userService.SignUp();
                     break;
                 case "3":
                     return;
@@ -59,6 +53,7 @@ public class Menu
             }
         }
     }
+
     private void DisplayPatientMenu(Patient patient)
     {
         while (true)
@@ -67,7 +62,7 @@ public class Menu
             Console.WriteLine("2. Переглянути медичну карту");
             Console.WriteLine("3. Скасувати запис");
             Console.WriteLine("4. Вийти");
-            string choice = Console.ReadLine();
+            var choice = Console.ReadLine();
 
             switch (choice)
             {
@@ -75,13 +70,13 @@ public class Menu
                     CreateAppointment(patient);
                     break;
                 case "2":
-                   // DisplayMedicalRecord(patient);
+                    // DisplayMedicalRecord(patient);
                     break;
                 case "3":
                     //CancelAppointment(patient);
                     break;
                 case "4":
-                    userService.SignOut();
+                    _userService.SignOut();
                     return;
                 default:
                     Console.WriteLine("Неправильний вибір. Спробуйте ще раз.");
@@ -100,7 +95,7 @@ public class Menu
             Console.WriteLine("3. Провести огляд");
             Console.WriteLine("4. Записати діагноз");
             Console.WriteLine("5. Вийти");
-            string choice = Console.ReadLine();
+            var choice = Console.ReadLine();
 
             switch (choice)
             {
@@ -111,13 +106,13 @@ public class Menu
                     //AcceptPatient(doctor);
                     break;
                 case "3":
-                   // ConductExamination(doctor);
+                    // ConductExamination(doctor);
                     break;
                 case "4":
                     //RecordDiagnosis(doctor);
                     break;
                 case "5":
-                    userService.SignOut();
+                    _userService.SignOut();
                     return;
                 default:
                     Console.WriteLine("Неправильний вибір. Спробуйте ще раз.");
@@ -125,65 +120,61 @@ public class Menu
             }
         }
     }
+
     private void CreateAppointment(Patient patient)
+    {
+        Console.Write("Опис симптомів: ");
+        var symptoms = Console.ReadLine();
+
+        var suitableDoctors = FindDoctorsBySymptoms(symptoms);
+
+        if (suitableDoctors.Any())
         {
-            Console.Write("Опис симптомів: ");
-            string symptoms = Console.ReadLine();
+            Console.WriteLine("Доступні лікарі для ваших симптомів:");
+            for (var i = 0; i < suitableDoctors.Count; i++)
+                Console.WriteLine(
+                    $"{i + 1}. {suitableDoctors[i].FullName} - Профілі: {string.Join(", ", suitableDoctors[i].Profiles)}");
+            Console.Write("Виберіть лікаря (введіть номер): ");
+            var doctorIndex = int.Parse(Console.ReadLine()) - 1;
 
-            List<Doctor> suitableDoctors = FindDoctorsBySymptoms(symptoms);
-
-            if (suitableDoctors.Any())
+            if (doctorIndex >= 0 && doctorIndex < suitableDoctors.Count)
             {
-                Console.WriteLine("Доступні лікарі для ваших симптомів:");
-                for (int i = 0; i < suitableDoctors.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {suitableDoctors[i].FullName} - Профілі: {string.Join(", ", suitableDoctors[i].Profiles)}");
-                }
-                Console.Write("Виберіть лікаря (введіть номер): ");
-                int doctorIndex = int.Parse(Console.ReadLine()) - 1;
+                var chosenDoctor = suitableDoctors[doctorIndex];
+                var date = DateTime.Now; // тут може бути введення дати користувачем
 
-                if (doctorIndex >= 0 && doctorIndex < suitableDoctors.Count)
+                var appointment = new Appointment
                 {
-                    Doctor chosenDoctor = suitableDoctors[doctorIndex];
-                    DateTime date = DateTime.Now; // тут може бути введення дати користувачем
+                    DoctorId = chosenDoctor.Id,
+                    PatientId = patient.Id,
+                    DateTime = date,
+                    Symptoms = symptoms,
+                    AppointmentStatus = AppointmentStatus.Scheduled
+                };
 
-                    var appointment = new Appointment
-                    {
-                        DoctorId = chosenDoctor.Id,
-                        PatientId = patient.Id,
-                        DateTime = date,
-                        Symptoms = symptoms,
-                        AppointmentStatus = AppointmentStatus.Scheduled
-                    };
-
-                    patientService.AddAppointment(patient.Id, appointment);
-                    doctorService.AddAppointment(appointment);
-                    Console.WriteLine("Запис успішно створений.");
-                }
-                else
-                {
-                    Console.WriteLine("Неправильний вибір лікаря.");
-                }
+                _patientService.AddAppointment(patient.Id, appointment);
+                _doctorService.AddAppointment(appointment);
+                Console.WriteLine("Запис успішно створений.");
             }
             else
             {
-                Console.WriteLine("Немає доступних лікарів для ваших симптомів.");
+                Console.WriteLine("Неправильний вибір лікаря.");
             }
         }
-
-        private List<Doctor> FindDoctorsBySymptoms(string symptoms)
+        else
         {
-            List<Doctor> allDoctors = doctorService.LoadDoctors();
-            List<Doctor> suitableDoctors = new List<Doctor>();
-
-            foreach (var doctor in allDoctors)
-            {
-                if (doctor.Profiles.Any(profile => symptoms.Contains(profile, StringComparison.OrdinalIgnoreCase)))
-                {
-                    suitableDoctors.Add(doctor);
-                }
-            }
-
-            return suitableDoctors;
+            Console.WriteLine("Немає доступних лікарів для ваших симптомів.");
         }
+    }
+
+    private List<Doctor> FindDoctorsBySymptoms(string symptoms)
+    {
+        var allDoctors = _doctorService.LoadDoctors();
+        var suitableDoctors = new List<Doctor>();
+
+        foreach (var doctor in allDoctors)
+            if (doctor.Profiles.Any(profile => symptoms.Contains(profile, StringComparison.OrdinalIgnoreCase)))
+                suitableDoctors.Add(doctor);
+
+        return suitableDoctors;
+    }
 }
