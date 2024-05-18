@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using SmartMed.Interfaces;
 using SmartMed.Models;
+using SmartMed.Services;
 
 namespace SmartMed.Menu;
 
@@ -8,13 +9,16 @@ public class Menu
 {
     private readonly IDoctorService _doctorService;
     private readonly IPatientService _patientService;
+    private readonly Dictionary<string, List<string>> _symptomProfiles;
     private readonly IUserService _userService;
 
-    public Menu(IUserService userService, IPatientService patientService, IDoctorService doctorService)
+    public Menu(IUserService userService, IPatientService patientService, IDoctorService doctorService,
+        JsonDataService jsonDataService)
     {
-        this._userService = userService;
-        this._patientService = patientService;
-        this._doctorService = doctorService;
+        _userService = userService;
+        _patientService = patientService;
+        _doctorService = doctorService;
+        _symptomProfiles = jsonDataService.LoadSymptomProfiles();
     }
 
     public void DisplayMainMenu()
@@ -171,8 +175,16 @@ public class Menu
         var allDoctors = _doctorService.LoadDoctors();
         var suitableDoctors = new List<Doctor>();
 
+        var symptomWords = symptoms.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var matchedProfiles = new HashSet<string>();
+
+        foreach (var word in symptomWords)
+        foreach (var profile in _symptomProfiles)
+            if (profile.Value.Any(symptom => symptom.Contains(word, StringComparison.OrdinalIgnoreCase)))
+                matchedProfiles.Add(profile.Key);
+
         foreach (var doctor in allDoctors)
-            if (doctor.Profiles.Any(profile => symptoms.Contains(profile, StringComparison.OrdinalIgnoreCase)))
+            if (doctor.Profiles.Any(profile => matchedProfiles.Contains(profile)))
                 suitableDoctors.Add(doctor);
 
         return suitableDoctors;

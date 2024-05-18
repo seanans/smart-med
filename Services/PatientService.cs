@@ -10,7 +10,7 @@ public class PatientService : IPatientService
 
     public PatientService(JsonDataService jsonDataService)
     {
-        this._jsonDataService = jsonDataService;
+        _jsonDataService = jsonDataService;
         _patients = jsonDataService.LoadPatients();
     }
 

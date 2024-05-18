@@ -18,14 +18,16 @@ internal static class Program
         const string doctorsFilePath = $"{basePath}/doctors.json";
         const string appointmentsFilePath = $"{basePath}/appointments.json";
         const string medicationsFilePath = $"{basePath}/medications.json";
+        const string symptomsProfilesFilePath = $"{basePath}/symptoms_profiles.json";
 
         var jsonDataService =
-            new JsonDataService(patientsFilePath, doctorsFilePath, appointmentsFilePath, medicationsFilePath);
+            new JsonDataService(patientsFilePath, doctorsFilePath, appointmentsFilePath, medicationsFilePath,
+                symptomsProfilesFilePath);
         IUserService userService = new UserService(jsonDataService);
         IPatientService patientService = new PatientService(jsonDataService);
         IDoctorService doctorService = new DoctorService(jsonDataService);
 
-        var menu = new Menu.Menu(userService, patientService, doctorService);
+        var menu = new Menu.Menu(userService, patientService, doctorService, jsonDataService);
         menu.DisplayMainMenu();
     }
 }

@@ -10,7 +10,7 @@ public class DoctorService : IDoctorService
 
     public DoctorService(JsonDataService jsonDataService)
     {
-        this._jsonDataService = jsonDataService;
+        _jsonDataService = jsonDataService;
         _doctors = jsonDataService.LoadDoctors();
     }
 

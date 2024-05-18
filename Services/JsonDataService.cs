@@ -10,14 +10,16 @@ public class JsonDataService
     private readonly string _doctorsFilePath;
     private readonly string _medicationsFilePath;
     private readonly string _patientsFilePath;
+    private readonly string _symptomsProfilesFilePath;
 
     public JsonDataService(string patientsFilePath, string doctorsFilePath, string appointmentsFilePath,
-        string medicationsFilePath)
+        string medicationsFilePath, string symptomsProfilesFilePath)
     {
-        this._patientsFilePath = patientsFilePath;
-        this._doctorsFilePath = doctorsFilePath;
-        this._appointmentsFilePath = appointmentsFilePath;
-        this._medicationsFilePath = medicationsFilePath;
+        _patientsFilePath = patientsFilePath;
+        _doctorsFilePath = doctorsFilePath;
+        _appointmentsFilePath = appointmentsFilePath;
+        _medicationsFilePath = medicationsFilePath;
+        _symptomsProfilesFilePath = symptomsProfilesFilePath;
     }
 
     public List<Patient> LoadPatients()
@@ -74,5 +76,13 @@ public class JsonDataService
     {
         var jsonData = JsonConvert.SerializeObject(medications, Formatting.Indented);
         File.WriteAllText(_medicationsFilePath, jsonData, Encoding.UTF8);
+    }
+
+    public Dictionary<string, List<string>> LoadSymptomProfiles()
+    {
+        if (!File.Exists(_symptomsProfilesFilePath)) return new Dictionary<string, List<string>>();
+        var jsonData = File.ReadAllText(_symptomsProfilesFilePath, Encoding.UTF8);
+        return JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(jsonData) ??
+               new Dictionary<string, List<string>>();
     }
 }

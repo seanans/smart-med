@@ -5,14 +5,14 @@ namespace SmartMed.Services;
 
 public class UserService : IUserService
 {
-    private User _currentUser;
     private readonly List<Doctor> _doctors;
     private readonly JsonDataService _jsonDataService;
     private readonly List<Patient> _patients;
+    private User _currentUser;
 
     public UserService(JsonDataService jsonDataService)
     {
-        this._jsonDataService = jsonDataService;
+        _jsonDataService = jsonDataService;
         _patients = jsonDataService.LoadPatients();
         _doctors = jsonDataService.LoadDoctors();
     }

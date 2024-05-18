@@ -11,6 +11,22 @@
           "DateTime": "2024-05-17T17:42:11.8394342+03:00",
           "Symptoms": "Cardio",
           "AppointmentStatus": 0
+        },
+        {
+          "Id": 0,
+          "DoctorId": 9,
+          "PatientId": 0,
+          "DateTime": "2024-05-18T14:12:30.9747595+03:00",
+          "Symptoms": "втрата ваги",
+          "AppointmentStatus": 0
+        },
+        {
+          "Id": 0,
+          "DoctorId": 5,
+          "PatientId": 0,
+          "DateTime": "2024-05-18T14:13:22.3170146+03:00",
+          "Symptoms": "висипка, свербіж, почервоніння",
+          "AppointmentStatus": 0
         }
       ],
       "Medications": []
