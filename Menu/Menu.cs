@@ -132,16 +132,17 @@ public class Menu
             Console.WriteLine("4. Назад");
 
             var choice = Console.ReadLine();
+            var medicalRecord = _medicalRecordService.GetMedicalRecord(patient.Id);
             switch (choice)
             {
                 case "1":
-                    DisplayDiseases(patient.MedicalRecord.Diseases);
+                    DisplayDiseases(medicalRecord.Diseases);
                     break;
                 case "2":
                     DisplayAppointments(patient.Id);
                     break;
                 case "3":
-                    DisplayMedications(patient.MedicalRecord.Medications);
+                    DisplayMedications(medicalRecord.Medications);
                     break;
                 case "4":
                     return;

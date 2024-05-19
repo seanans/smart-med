@@ -2,7 +2,6 @@
 
 public class MedicalRecord
 {
-    
     private List<Disease> _diseases = [];
     private List<Medication> _medications = [];
     private List<int> _appointmentIds = [];

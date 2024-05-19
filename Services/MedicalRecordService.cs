@@ -5,21 +5,48 @@ namespace SmartMed.Services;
 
 public class MedicalRecordService(JsonDataService jsonDataService) : IMedicalRecordService
 {
-    private readonly List<Patient> _patients = jsonDataService.LoadPatients();
+    private readonly List<MedicalRecord> _medicalRecords = jsonDataService.LoadMedicalRecords();
 
     public MedicalRecord GetMedicalRecord(int patientId)
     {
-        var patient = _patients.FirstOrDefault(p => p.Id == patientId);
-        return patient?.MedicalRecord;
+        return _medicalRecords.FirstOrDefault(r => r.PatientId == patientId) ??
+               new MedicalRecord { PatientId = patientId };
     }
 
     public void SaveMedicalRecord(MedicalRecord medicalRecord)
     {
-        var patient = _patients.FirstOrDefault(p => p.Id == medicalRecord.PatientId);
-        if (patient != null)
+        var existingRecord = _medicalRecords.FirstOrDefault(r => r.PatientId == medicalRecord.PatientId);
+        if (existingRecord != null)
         {
-            patient.MedicalRecord = medicalRecord;
-            jsonDataService.SavePatients(_patients);
+            existingRecord.Diseases = medicalRecord.Diseases;
+            existingRecord.Medications = medicalRecord.Medications;
+            existingRecord.AppointmentIds = medicalRecord.AppointmentIds;
         }
+        else
+        {
+            _medicalRecords.Add(medicalRecord);
+        }
+        jsonDataService.SaveMedicalRecords(_medicalRecords);
+    }
+
+    public void AddDisease(int patientId, Disease disease)
+    {
+        var record = GetMedicalRecord(patientId);
+        record.Diseases.Add(disease);
+        SaveMedicalRecord(record);
+    }
+
+    public void AddMedication(int patientId, Medication medication)
+    {
+        var record = GetMedicalRecord(patientId);
+        record.Medications.Add(medication);
+        SaveMedicalRecord(record);
+    }
+
+    public void AddAppointment(int patientId, int appointmentId)
+    {
+        var record = GetMedicalRecord(patientId);
+        record.AppointmentIds.Add(appointmentId);
+        SaveMedicalRecord(record);
     }
 }

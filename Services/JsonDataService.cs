@@ -9,7 +9,8 @@ public class JsonDataService(
     string doctorsFilePath,
     string appointmentsFilePath,
     string medicationsFilePath,
-    string symptomsProfilesFilePath)
+    string symptomsProfilesFilePath,
+    string medicalRecordsFilePath)
 {
     public List<Patient> LoadPatients() => LoadData<List<Patient>>(patientsFilePath) ?? new List<Patient>();
 
@@ -25,6 +26,9 @@ public class JsonDataService(
     public List<Medication> LoadMedications() => LoadData<List<Medication>>(medicationsFilePath) ?? new List<Medication>();
 
     public void SaveMedications(List<Medication> medications) => SaveData(medicationsFilePath, medications);
+    public List<MedicalRecord> LoadMedicalRecords() => LoadData<List<MedicalRecord>>(medicalRecordsFilePath) ?? new List<MedicalRecord>();
+    public void SaveMedicalRecords(List<MedicalRecord> medicalRecords) => SaveData(medicalRecordsFilePath, medicalRecords);
+
 
     public Dictionary<string, List<string>> LoadSymptomProfiles() => LoadData<Dictionary<string, List<string>>>(symptomsProfilesFilePath) ?? new Dictionary<string, List<string>>();
 
