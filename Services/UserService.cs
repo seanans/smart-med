@@ -43,6 +43,13 @@ public class UserService : IUserService
 
         Console.Write("Ім'я користувача: ");
         var username = Console.ReadLine();
+        
+        if (_patients.Any(u => u.Username == username) || _doctors.Any(u => u.Username == username))
+        {
+            Console.WriteLine("Користувач з таким ім'ям вже існує.");
+            return;
+        }
+        
         Console.Write("Пароль: ");
         var password = Console.ReadLine();
         Console.Write("Повне ім'я: ");

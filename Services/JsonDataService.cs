@@ -30,15 +30,32 @@ public class JsonDataService(
 
     private T? LoadData<T>(string filePath)
     {
-        if (!File.Exists(filePath)) return default(T);
+        try
+        {
+            if (!File.Exists(filePath)) return default(T);
 
-        var jsonData = File.ReadAllText(filePath, Encoding.UTF8);
-        return JsonConvert.DeserializeObject<T>(jsonData);
+            var jsonData = File.ReadAllText(filePath, Encoding.UTF8);
+            return JsonConvert.DeserializeObject<T>(jsonData);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Помилка при завантаженні даних з файлу {filePath}: {e.Message}");
+            return default(T);
+        }
+        
     }
 
     private void SaveData<T>(string filePath, T data)
     {
-        var jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
-        File.WriteAllText(filePath, jsonData, Encoding.UTF8);
+        try
+        {
+            var jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(filePath, jsonData, Encoding.UTF8);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Помилка при збереженні даних у файл {filePath}: {ex.Message}");
+        }
+        
     }
 }

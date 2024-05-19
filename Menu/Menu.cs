@@ -106,7 +106,10 @@ public class Menu
         
         Console.WriteLine("Ваші заплановані зустрічі:");
         for (int i = 0; i < appointments.Count; i++)
-            Console.WriteLine($"{i + 1}. Лікар: {_doctorService.getDoctorById(appointments[i].DoctorId).FullName}, Дата та час: {appointments[i].DateTime}");
+        {
+            var doctor = _doctorService.getDoctorById(appointments[i].DoctorId);
+            Console.WriteLine($"{i + 1}. Лікар: {doctor.FullName}, Дата та час: {appointments[i].DateTime}");
+        }
         
         Console.Write("Виберіть зустріч для скасування (введіть номер): ");
         if (int.TryParse(Console.ReadLine(), out var appointmentIndex) && appointmentIndex > 0 && appointmentIndex <= appointments.Count)
