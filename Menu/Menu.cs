@@ -12,15 +12,17 @@ public class Menu
     private readonly IPatientService _patientService;
     private readonly Dictionary<string, List<string>> _symptomProfiles;
     private readonly IUserService _userService;
+    private readonly IAppointmentService _appointmentService;
     private readonly IMedicalRecordService _medicalRecordService;
 
     public Menu(IUserService userService, IPatientService patientService, IDoctorService doctorService,
-        JsonDataService jsonDataService, IMedicalRecordService medicalRecordService)
+        JsonDataService jsonDataService, IMedicalRecordService medicalRecordService, IAppointmentService appointmentService)
     {
         _userService = userService;
         _patientService = patientService;
         _doctorService = doctorService;
         _medicalRecordService = medicalRecordService;
+        _appointmentService = appointmentService;
         _symptomProfiles = jsonDataService.LoadSymptomProfiles();
     }
 
@@ -94,7 +96,7 @@ public class Menu
 
     private void CancelAppointment(Patient patient)
     {
-        var appointments = _patientService.GetAppointments(patient.Id)
+        var appointments = _appointmentService.GetAppointmentsByPatient(patient.Id)
             .Where(a => a.AppointmentStatus == AppointmentStatus.Scheduled).ToList();
         if (!appointments.Any())
         {
@@ -104,20 +106,13 @@ public class Menu
         
         Console.WriteLine("Ваші заплановані зустрічі:");
         for (int i = 0; i < appointments.Count; i++)
-        {
-            var doctor = _doctorService.LoadDoctors().FirstOrDefault(d => d.Id == appointments[i].DoctorId);
-            Console.WriteLine($"{i + 1}. Лікар: {doctor?.FullName ?? "Невідомий"}, Дата та час: {appointments[i].DateTime}, Симптоми: {appointments[i].Symptoms}");        
-        }
+            Console.WriteLine($"{i + 1}. Лікар: {_doctorService.getDoctorById(appointments[i].DoctorId).FullName}, Дата та час: {appointments[i].DateTime}");
         
         Console.Write("Виберіть зустріч для скасування (введіть номер): ");
-        if (int.TryParse(Console.ReadLine(), out var appoinmentIndex) && appoinmentIndex > 0 && appoinmentIndex <= appointments.Count)
+        if (int.TryParse(Console.ReadLine(), out var appointmentIndex) && appointmentIndex > 0 && appointmentIndex <= appointments.Count)
         {
-            var appointment = appointments[appoinmentIndex - 1];
-            appointment.AppointmentStatus = AppointmentStatus.Cancelled;
-            
-            _patientService.SavePatients(_patientService.LoadPatients());
-            _doctorService.SaveDoctors(_doctorService.LoadDoctors());
-            
+            var appointment = appointments[appointmentIndex - 1];
+            _appointmentService.CancelAppointment(appointment.Id);
             Console.WriteLine("Зустріч скасовано.");
         }
         
@@ -140,7 +135,7 @@ public class Menu
                     DisplayDiseases(patient.MedicalRecord.Diseases);
                     break;
                 case "2":
-                    DisplayAppointments(patient.MedicalRecord.Appointments);
+                    DisplayAppointments(patient.Id);
                     break;
                 case "3":
                     DisplayMedications(patient.MedicalRecord.Medications);
@@ -173,8 +168,9 @@ public class Menu
         Console.ReadKey();
     }
     
-    private void DisplayAppointments(List<Appointment> appointments)
+    private void DisplayAppointments(int patientId)
     {
+        var appointments = _appointmentService.GetAppointmentsByPatient(patientId);
         if (!appointments.Any())
         {
             Console.WriteLine("Немає запланованих зустрічей.");
@@ -225,7 +221,7 @@ public class Menu
             switch (choice)
             {
                 case "1":
-                    // DisplayAppointments(doctor);
+                    DisplayAppointments(doctor);
                     break;
                 case "2":
                     //AcceptPatient(doctor);
@@ -243,6 +239,25 @@ public class Menu
                     Console.WriteLine("Неправильний вибір. Спробуйте ще раз.");
                     break;
             }
+        }
+    }
+
+    private void DisplayAppointments(Doctor doctor)
+    {
+        var appointments = _appointmentService.GetAppointmentsByDoctor(doctor.Id)
+            .Where(a => a.AppointmentStatus == AppointmentStatus.Scheduled).ToList();
+        
+        if (!appointments.Any())
+        {
+            Console.WriteLine("У вас немає запланованих зустрічей.");
+            return;
+        }
+        
+        Console.WriteLine("Ваші заплановані зустрічі:");
+        foreach (var appointment in appointments)
+        {
+            var patient = _patientService.LoadPatients().FirstOrDefault(p => p.Id == appointment.PatientId);
+            Console.WriteLine($"Пацієнт: {patient?.FullName ?? "Невідомий"}, Дата та час: {appointment.DateTime}, Симптоми: {appointment.Symptoms}, Статус: {appointment.AppointmentStatus}");
         }
     }
 
@@ -276,19 +291,9 @@ public class Menu
         string chosenTime;
         while ((chosenTime = ChooseTime(availableTimes)) == null)
             Console.WriteLine("Неправильний вибір часу. Спробуйте ще раз.");
-
         var chosenDateTime = DateTime.ParseExact($"{chosenDate:yyyy-MM-dd} {chosenTime}", "yyyy-MM-dd HH:mm", null);
-        var appointment = new Appointment
-        {
-            DoctorId = chosenDoctor.Id,
-            PatientId = patient.Id,
-            DateTime = chosenDateTime,
-            Symptoms = symptoms,
-            AppointmentStatus = AppointmentStatus.Scheduled
-        };
-
-        _patientService.AddAppointment(patient.Id, appointment);
-        _doctorService.AddAppointment(appointment);
+        
+        _appointmentService.ScheduleAppointment(chosenDoctor.Id, patient.Id, chosenDateTime, symptoms);
         Console.WriteLine("Запис успішно створений.");
     }
 
@@ -318,9 +323,15 @@ public class Menu
     {
         var day = chosenDate.ToString("dddd", new CultureInfo("uk-UA"));
         var availableTimes = new List<string>(doctor.Schedule[day]);
-        foreach (var appointment in doctor.Appointments)
-            if (appointment.DateTime.Date == chosenDate.Date)
-                availableTimes.Remove(appointment.DateTime.ToString("HH:mm"));
+        var doctorAppointments = _appointmentService.GetAppointmentsByDoctor(doctor.Id);
+        var doctorAppointmentsForDay = doctorAppointments
+            .Where(a => a.DateTime.Date == chosenDate.Date)
+            .ToList();
+        
+        foreach (var appointment in doctorAppointmentsForDay)
+        {
+            availableTimes.Remove(appointment.DateTime.ToString("HH:mm"));
+        }
         return availableTimes;
     }
 

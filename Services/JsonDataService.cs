@@ -20,7 +20,6 @@ public class JsonDataService(
     public void SaveDoctors(List<Doctor> doctors) => SaveData(doctorsFilePath, doctors);
 
     public List<Appointment> LoadAppointments() => LoadData<List<Appointment>>(appointmentsFilePath) ?? new List<Appointment>();
-
     public void SaveAppointments(List<Appointment> appointments) => SaveData(appointmentsFilePath, appointments);
 
     public List<Medication> LoadMedications() => LoadData<List<Medication>>(medicationsFilePath) ?? new List<Medication>();

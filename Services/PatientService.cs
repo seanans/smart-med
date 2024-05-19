@@ -24,12 +24,12 @@ public class PatientService : IPatientService
         }
     }
 
-    public void AddAppointment(int patientId, Appointment appointment)
+    public void AddAppointment(int patientId, int appointmentId)
     {
         var patient = _patients.FirstOrDefault(p => p.Id == patientId);
         if (patient != null)
         {
-            patient.MedicalRecord.Appointments.Add(appointment);
+            patient.MedicalRecord.AppointmentIds.Add(appointmentId);
             _jsonDataService.SavePatients(_patients);
         }
     }
@@ -52,8 +52,8 @@ public class PatientService : IPatientService
 
     public List<Appointment> GetAppointments(int patientId)
     {
-        var patient = _patients.FirstOrDefault(p => p.Id == patientId);
-        return patient?.MedicalRecord.Appointments;
+        var appointmentIds = _patients.FirstOrDefault(p => p.Id == patientId)?.MedicalRecord.AppointmentIds;
+        return _jsonDataService.LoadAppointments().Where(a => appointmentIds.Contains(a.Id)).ToList();
     }
 
     public List<Medication> GetMedications(int patientId)
