@@ -10,7 +10,7 @@
           "PatientId": 0,
           "DateTime": "2024-05-17T17:42:11.8394342+03:00",
           "Symptoms": "Cardio",
-          "AppointmentStatus": 0
+          "AppointmentStatus": 2
         },
         {
           "Id": 0,
@@ -18,7 +18,7 @@
           "PatientId": 0,
           "DateTime": "2024-05-18T14:12:30.9747595+03:00",
           "Symptoms": "втрата ваги",
-          "AppointmentStatus": 0
+          "AppointmentStatus": 2
         },
         {
           "Id": 0,
@@ -26,7 +26,7 @@
           "PatientId": 0,
           "DateTime": "2024-05-18T14:13:22.3170146+03:00",
           "Symptoms": "висипка, свербіж, почервоніння",
-          "AppointmentStatus": 0
+          "AppointmentStatus": 2
         },
         {
           "Id": 0,
@@ -34,7 +34,7 @@
           "PatientId": 0,
           "DateTime": "2024-05-20T09:00:00",
           "Symptoms": "Аритмія",
-          "AppointmentStatus": 0
+          "AppointmentStatus": 2
         },
         {
           "Id": 0,
@@ -42,7 +42,7 @@
           "PatientId": 0,
           "DateTime": "2024-05-20T10:00:00",
           "Symptoms": "Аритмія",
-          "AppointmentStatus": 0
+          "AppointmentStatus": 2
         },
         {
           "Id": 0,
@@ -50,7 +50,7 @@
           "PatientId": 0,
           "DateTime": "2024-05-20T11:00:00",
           "Symptoms": "аритмія",
-          "AppointmentStatus": 0
+          "AppointmentStatus": 2
         }
       ],
       "Medications": []
@@ -105,12 +105,6 @@
     "PhoneNumber": "1"
   },
   {
-    "Id": 1,
-    "Username": "patient1",
-    "Password": "password1",
-    "FullName": "Іван Іванов",
-    "Email": "ivan.ivanov@example.com",
-    "PhoneNumber": "555-1111",
     "MedicalRecord": {
       "PatientId": 1,
       "Diseases": [
@@ -134,7 +128,7 @@
           "PatientId": 3,
           "DateTime": "2023-03-01T10:00:00",
           "Symptoms": "Кашель, біль у грудях.",
-          "AppointmentStatus": "Completed"
+          "AppointmentStatus": 1
         },
         {
           "Id": 2,
@@ -142,7 +136,7 @@
           "PatientId": 3,
           "DateTime": "2023-04-01T11:00:00",
           "Symptoms": "Біль у горлі, підвищена температура.",
-          "AppointmentStatus": "Scheduled"
+          "AppointmentStatus": 0
         }
       ],
       "Medications": [
@@ -159,7 +153,12 @@
           "Dosage": "250 мг, тричі на день"
         }
       ]
-    }
+    },
+    "Id": 1,
+    "Username": "patient1",
+    "Password": "password1",
+    "FullName": "Іван Іванов",
+    "Email": "ivan.ivanov@example.com",
+    "PhoneNumber": "555-1111"
   }
-
 ]

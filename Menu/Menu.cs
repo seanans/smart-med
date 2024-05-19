@@ -80,7 +80,7 @@ public class Menu
                     DisplayMedicalRecord(patient);
                     break;
                 case "3":
-                    //CancelAppointment(patient);
+                    CancelAppointment(patient);
                     break;
                 case "4":
                     _userService.SignOut();
@@ -90,6 +90,37 @@ public class Menu
                     break;
             }
         }
+    }
+
+    private void CancelAppointment(Patient patient)
+    {
+        var appointments = _patientService.GetAppointments(patient.Id)
+            .Where(a => a.AppointmentStatus == AppointmentStatus.Scheduled).ToList();
+        if (!appointments.Any())
+        {
+            Console.WriteLine("У вас немає запланованих зустрічей.");
+            return;
+        }
+        
+        Console.WriteLine("Ваші заплановані зустрічі:");
+        for (int i = 0; i < appointments.Count; i++)
+        {
+            var doctor = _doctorService.LoadDoctors().FirstOrDefault(d => d.Id == appointments[i].DoctorId);
+            Console.WriteLine($"{i + 1}. Лікар: {doctor?.FullName ?? "Невідомий"}, Дата та час: {appointments[i].DateTime}, Симптоми: {appointments[i].Symptoms}");        
+        }
+        
+        Console.Write("Виберіть зустріч для скасування (введіть номер): ");
+        if (int.TryParse(Console.ReadLine(), out var appoinmentIndex) && appoinmentIndex > 0 && appoinmentIndex <= appointments.Count)
+        {
+            var appointment = appointments[appoinmentIndex - 1];
+            appointment.AppointmentStatus = AppointmentStatus.Cancelled;
+            
+            _patientService.SavePatients(_patientService.LoadPatients());
+            _doctorService.SaveDoctors(_doctorService.LoadDoctors());
+            
+            Console.WriteLine("Зустріч скасовано.");
+        }
+        
     }
 
     private void DisplayMedicalRecord(Patient patient)
