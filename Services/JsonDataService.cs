@@ -10,6 +10,7 @@ public class JsonDataService(
     string appointmentsFilePath,
     string medicationsFilePath,
     string symptomsProfilesFilePath,
+    string diseasesFilePath,
     string medicalRecordsFilePath)
 {
     public List<Patient> LoadPatients() => LoadData<List<Patient>>(patientsFilePath) ?? new List<Patient>();
@@ -21,16 +22,22 @@ public class JsonDataService(
     public void SaveDoctors(List<Doctor> doctors) => SaveData(doctorsFilePath, doctors);
 
     public List<Appointment> LoadAppointments() => LoadData<List<Appointment>>(appointmentsFilePath) ?? new List<Appointment>();
+
     public void SaveAppointments(List<Appointment> appointments) => SaveData(appointmentsFilePath, appointments);
 
     public List<Medication> LoadMedications() => LoadData<List<Medication>>(medicationsFilePath) ?? new List<Medication>();
 
     public void SaveMedications(List<Medication> medications) => SaveData(medicationsFilePath, medications);
-    public List<MedicalRecord> LoadMedicalRecords() => LoadData<List<MedicalRecord>>(medicalRecordsFilePath) ?? new List<MedicalRecord>();
-    public void SaveMedicalRecords(List<MedicalRecord> medicalRecords) => SaveData(medicalRecordsFilePath, medicalRecords);
-
 
     public Dictionary<string, List<string>> LoadSymptomProfiles() => LoadData<Dictionary<string, List<string>>>(symptomsProfilesFilePath) ?? new Dictionary<string, List<string>>();
+
+    public List<Disease> LoadDiseases() => LoadData<List<Disease>>(diseasesFilePath) ?? new List<Disease>();
+
+    public void SaveDiseases(List<Disease> diseases) => SaveData(diseasesFilePath, diseases);
+
+    public List<MedicalRecord> LoadMedicalRecords() => LoadData<List<MedicalRecord>>(medicalRecordsFilePath) ?? new List<MedicalRecord>();
+
+    public void SaveMedicalRecords(List<MedicalRecord> medicalRecords) => SaveData(medicalRecordsFilePath, medicalRecords);
 
     private T? LoadData<T>(string filePath)
     {
@@ -46,7 +53,6 @@ public class JsonDataService(
             Console.WriteLine($"Помилка при завантаженні даних з файлу {filePath}: {e.Message}");
             return default(T);
         }
-        
     }
 
     private void SaveData<T>(string filePath, T data)
@@ -60,6 +66,5 @@ public class JsonDataService(
         {
             Console.WriteLine($"Помилка при збереженні даних у файл {filePath}: {ex.Message}");
         }
-        
     }
 }

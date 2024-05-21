@@ -1,7 +1,7 @@
 ﻿[
 {
     "Profiles": [
-      "Пульмонологія"
+      "Інфекціологія"
     ],
     "Schedule": {
       "середа": [
@@ -26,9 +26,9 @@
         "15:00"
       ]
     },
-    "Id": 8,
-    "Username": "drthompson",
-    "Password": "password1234",
+    "Id": 1,
+    "Username": "doctor1",
+    "Password": "password1",
     "FullName": "Патрісія Томпсон",
     "Email": "patricia.thompson@example.com",
     "PhoneNumber": "555-9900"

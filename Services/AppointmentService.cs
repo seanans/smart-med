@@ -34,7 +34,17 @@ public class AppointmentService(JsonDataService jsonDataService) : IAppointmentS
             _jsonDataService.SaveAppointments(_appointments);
         }
     }
-    
+
+    public void CompleteAppointment(int appointmentId)
+    {
+        var appointment = _appointments.FirstOrDefault(a => a.Id == appointmentId);
+        if (appointment != null)
+        {
+            appointment.AppointmentStatus = AppointmentStatus.Completed;
+            _jsonDataService.SaveAppointments(_appointments);
+        }
+    }
+
 
     public List<Appointment> GetAppointments() => _appointments;
 

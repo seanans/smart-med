@@ -29,10 +29,10 @@ public class MedicalRecordService(JsonDataService jsonDataService) : IMedicalRec
         jsonDataService.SaveMedicalRecords(_medicalRecords);
     }
 
-    public void AddDisease(int patientId, Disease disease)
+    public void AddDisease(int patientId, DiseaseRecord diseaseRecord)
     {
         var record = GetMedicalRecord(patientId);
-        record.Diseases.Add(disease);
+        record.Diseases.Add(diseaseRecord);
         SaveMedicalRecord(record);
     }
 

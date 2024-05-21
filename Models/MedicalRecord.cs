@@ -2,13 +2,13 @@
 
 public class MedicalRecord
 {
-    private List<Disease> _diseases = [];
+    private List<DiseaseRecord> _diseases = [];
     private List<Medication> _medications = [];
     private List<int> _appointmentIds = [];
 
     public int PatientId { get; set; }
 
-    public List<Disease> Diseases
+    public List<DiseaseRecord> Diseases
     {
         get => _diseases;
         set => _diseases = value ?? throw new ArgumentNullException(nameof(value));

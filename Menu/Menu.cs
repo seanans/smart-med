@@ -14,6 +14,7 @@ public class Menu
     private readonly IUserService _userService;
     private readonly IAppointmentService _appointmentService;
     private readonly IMedicalRecordService _medicalRecordService;
+    private readonly JsonDataService _jsonDataService;
 
     public Menu(IUserService userService, IPatientService patientService, IDoctorService doctorService,
         JsonDataService jsonDataService, IMedicalRecordService medicalRecordService, IAppointmentService appointmentService)
@@ -21,6 +22,7 @@ public class Menu
         _userService = userService;
         _patientService = patientService;
         _doctorService = doctorService;
+        _jsonDataService = jsonDataService;
         _medicalRecordService = medicalRecordService;
         _appointmentService = appointmentService;
         _symptomProfiles = jsonDataService.LoadSymptomProfiles();
@@ -153,19 +155,42 @@ public class Menu
         }
     }
     
-    private void DisplayDiseases(List<Disease> diseases)
+    private void DisplayDiseases(List<DiseaseRecord> diseaseRecords)
     {
-        if (!diseases.Any())
+        if (!diseaseRecords.Any())
         {
             Console.WriteLine("Немає зареєстрованих хвороб.");
             return;
         }
 
+        var diseases = _jsonDataService.LoadDiseases();
+
         Console.WriteLine("Хвороби:");
-        for (int i = 0; i < diseases.Count; i++)
+        for (int i = 0; i < diseaseRecords.Count; i++)
         {
-            var disease = diseases[i];
-            Console.WriteLine($"{i + 1}. Назва: {disease.Name}, Опис: {disease.Description}, Дата діагнозу: {disease.DiagnosisDate}");
+            var diseaseRecord = diseaseRecords[i];
+            var disease = diseases.FirstOrDefault(d => d.Id == diseaseRecord.DiseaseId);
+
+            if (disease != null)
+            {
+                Console.WriteLine($"{i + 1}. Назва: {disease.Name}");
+                Console.WriteLine($"   Опис: {disease.Description}");
+                Console.WriteLine($"   Симптоми: {string.Join(", ", disease.Symptoms)}");
+                Console.WriteLine($"   Лікар: {_doctorService.getDoctorById(diseaseRecord.DoctorId).FullName}");
+                Console.WriteLine($"   Статус: {diseaseRecord.Status}");
+                Console.WriteLine($"   Дата діагнозу: {diseaseRecord.DateDiagnosed}");
+                Console.WriteLine($"   Дата завершення: {(diseaseRecord.Status == DiseaseStatus.Recovered ? diseaseRecord.DateRecovered.ToString() : "Ще не завершено")}");
+                Console.WriteLine($"   Симптоми пацієнта: {diseaseRecord.Symptoms}");
+                Console.WriteLine($"   Лікування:");
+                foreach (var treatment in diseaseRecord.Treatments)
+                {
+                    var medication = _jsonDataService.LoadMedications().FirstOrDefault(m => m.Id == treatment.MedicationId);
+                    if (medication != null)
+                    {
+                        Console.WriteLine($"      Ліки: {medication.Name}, Дозування: {treatment.Dosage}");
+                    }
+                }
+            }
         }
 
         Console.WriteLine("Натисніть будь-яку клавішу для повернення до медичної карти.");
@@ -216,10 +241,7 @@ public class Menu
         while (true)
         {
             Console.WriteLine("1. Переглянути поточні записи");
-            Console.WriteLine("2. Прийняти пацієнта");
-            Console.WriteLine("3. Провести огляд");
-            Console.WriteLine("4. Записати діагноз");
-            Console.WriteLine("5. Вийти");
+            Console.WriteLine("2. Вийти");
             var choice = Console.ReadLine();
 
             switch (choice)
@@ -228,15 +250,6 @@ public class Menu
                     DisplayAppointments(doctor);
                     break;
                 case "2":
-                    //AcceptPatient(doctor);
-                    break;
-                case "3":
-                    // ConductExamination(doctor);
-                    break;
-                case "4":
-                    //RecordDiagnosis(doctor);
-                    break;
-                case "5":
                     _userService.SignOut();
                     return;
                 default:
@@ -244,6 +257,118 @@ public class Menu
                     break;
             }
         }
+    }
+
+    private void AcceptPatient(Doctor doctor, Appointment appointment)
+    {
+        while (true)
+        {
+            Console.WriteLine("1. Переглянути картку пацієнта");
+            Console.WriteLine("2. Провести огляд");
+            Console.WriteLine("3. Назад");
+            var choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    var patient = _patientService.LoadPatients().FirstOrDefault(p => p.Id == appointment.PatientId);
+                    if (patient != null)
+                        DisplayMedicalRecord(patient);
+                    break;
+                case "2":
+                    ConductExamination(doctor, appointment);
+                    return;
+                case "3":
+                    return;
+                default:
+                    Console.WriteLine("Неправильний вибір. Спробуйте ще раз.");
+                    break;
+            }
+        }
+    }
+
+    private void ConductExamination(Doctor doctor, Appointment appointment)
+    {
+        Console.WriteLine("Симптоми вказані при зверненні:" + appointment.Symptoms);
+        Console.WriteLine("Рекомендації по огляду: ...");
+        Thread.Sleep(1000);
+        Console.WriteLine("1.-------");
+        Console.WriteLine("2.-------");
+        Console.WriteLine("3.-------");
+        
+        Console.WriteLine("Введіть усі симптоми пацієнта:"); //Лікар вводить симптоми і скарги пацієнта, які виявив під час огляду
+        var symptoms = Console.ReadLine();
+        var diseases = _jsonDataService.LoadDiseases();
+        var possibleDiseases = diseases
+            .Where(d => d.Symptoms.Any(s => symptoms.Contains(s, StringComparison.OrdinalIgnoreCase)))
+            .ToList();
+        
+        if (possibleDiseases.Any())
+        {
+            Console.WriteLine("Ось можливий діагноз:");
+            foreach (var possibleDisease in possibleDiseases)
+            {
+                Console.WriteLine($"- {possibleDisease.Name}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Жодної хвороби не знайдено за вказаними симптомами.");
+        }
+        Console.Write("Введіть назву хвороби: "); //Лікар враховуючи або не враховуючи запропонований діагноз вводить хворобу яку приєднає до запису в картці
+        var diseaseName = Console.ReadLine();
+        
+        var disease = diseases.FirstOrDefault(d => d.Name.Equals(diseaseName, StringComparison.OrdinalIgnoreCase));
+        if (disease == null)
+        {
+            Console.WriteLine("Хворобу не знайдено.");
+            return;
+        }
+        
+        var diseaseRecord = new DiseaseRecord
+        {
+            DiseaseId = disease.Id,
+            DiseaseName = disease.Name,
+            DiseaseDescription = disease.Description,
+            DoctorId = doctor.Id,
+            PatientId = appointment.PatientId,
+            Symptoms = symptoms,
+            Status = DiseaseStatus.Sick,
+            DateDiagnosed = DateTime.Now
+        };
+        while (true)
+        {
+            Console.Write("Додати лікування? (так/ні): ");
+            var addTreatment = Console.ReadLine();
+            if (addTreatment?.ToLower() != "так") break;
+
+            Console.Write("Введіть назву ліків: ");
+            var medicationName = Console.ReadLine();
+            var medications = _jsonDataService.LoadMedications();
+            var medication = medications.FirstOrDefault(m => m.Name.Equals(medicationName, StringComparison.OrdinalIgnoreCase));
+
+            if (medication == null)
+            {
+                Console.WriteLine("Ліки не знайдено.");
+                continue;
+            }
+
+            Console.Write("Введіть дозування: ");
+            var dosage = Console.ReadLine();
+
+            diseaseRecord.Treatments.Add(new Treatment
+            {
+                MedicationId = medication.Id,
+                Dosage = dosage
+            });
+        }
+
+        _medicalRecordService.AddDisease(appointment.PatientId, diseaseRecord);
+
+        appointment.AppointmentStatus = AppointmentStatus.Completed;
+        _appointmentService.SaveAppointments(new List<Appointment> { appointment });
+
+        Console.WriteLine("Огляд завершено. Запис оновлено.");
     }
 
     private void DisplayAppointments(Doctor doctor)
@@ -258,10 +383,17 @@ public class Menu
         }
         
         Console.WriteLine("Ваші заплановані зустрічі:");
-        foreach (var appointment in appointments)
+        for (int i = 0; i < appointments.Count; i++)
         {
-            var patient = _patientService.LoadPatients().FirstOrDefault(p => p.Id == appointment.PatientId);
-            Console.WriteLine($"Пацієнт: {patient?.FullName ?? "Невідомий"}, Дата та час: {appointment.DateTime}, Симптоми: {appointment.Symptoms}, Статус: {appointment.AppointmentStatus}");
+            var patient = _patientService.LoadPatients().FirstOrDefault(p => p.Id == appointments[i].PatientId);
+            Console.WriteLine($"{i + 1}. Пацієнт: {patient?.FullName ?? "Невідомий"}, Дата та час: {appointments[i].DateTime}");
+        }
+
+        Console.Write("Оберіть запис який хочете прийняти (введіть номер) або натисніть будь-яку іншу клавішу для виходу: ");
+        if (int.TryParse(Console.ReadLine(), out var appointmentIndex) && appointmentIndex > 0 && appointmentIndex <= appointments.Count)
+        {
+            var appointment = appointments[appointmentIndex - 1];
+            AcceptPatient(doctor, appointment);
         }
     }
 

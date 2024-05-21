@@ -1,18 +1,10 @@
 ﻿[
   {
     "Id": 1,
-    "DoctorId": 8,
+    "DoctorId": 1,
     "PatientId": 1,
     "DateTime": "2024-05-22T09:00:00",
     "Symptoms": "кашель",
-    "AppointmentStatus": 0
-  },
-  {
-    "Id": 2,
-    "DoctorId": 8,
-    "PatientId": 1,
-    "DateTime": "2024-05-22T14:00:00",
-    "Symptoms": "кашель",
-    "AppointmentStatus": 0
+    "AppointmentStatus": 1
   }
 ]

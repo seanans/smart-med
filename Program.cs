@@ -20,10 +20,12 @@ internal static class Program
         const string medicationsFilePath = $"{basePath}/medications.json";
         const string symptomsProfilesFilePath = $"{basePath}/symptoms_profiles.json";
         const string medicalRecordsFilePath = $"{basePath}/medical_records.json";
+        const string diseasesFilePath = $"{basePath}/diseases.json";
+
 
         var jsonDataService =
             new JsonDataService(patientsFilePath, doctorsFilePath, appointmentsFilePath, medicationsFilePath,
-                symptomsProfilesFilePath, medicalRecordsFilePath);
+                symptomsProfilesFilePath, diseasesFilePath, medicalRecordsFilePath);
         IUserService userService = new UserService(jsonDataService);
         IPatientService patientService = new PatientService(jsonDataService);
         IDoctorService doctorService = new DoctorService(jsonDataService);

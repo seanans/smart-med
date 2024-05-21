@@ -9,6 +9,7 @@ public interface IAppointmentService
     void SaveAppointments(List<Appointment> appointments);
     List<Appointment> LoadAppointments();
     void CancelAppointment(int appointmentId);
+    void CompleteAppointment(int appointmentId);
     List<Appointment> GetAppointmentsByDoctor(int doctorId);
     List<Appointment> GetAppointmentsByPatient(int patientId);
 }

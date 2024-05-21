@@ -1,1 +1,16 @@
-﻿[]
+﻿[
+    {
+        "Id": 1,
+        "Name": "Аспірин",
+        "ActiveIngredient": "Ацетилсаліцилова кислота",
+        "Contraindications": ["виразка шлунка"],
+        "Symptoms": ["біль", "лихоманка"]
+    },
+    {
+        "Id": 2,
+        "Name": "Ібупрофен",
+        "ActiveIngredient": "Ібупрофен",
+        "Contraindications": ["вагітність"],
+        "Symptoms": ["біль", "запалення"]
+    }
+]

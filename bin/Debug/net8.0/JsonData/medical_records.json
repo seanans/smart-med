@@ -1,0 +1,27 @@
+﻿[
+  {
+    "PatientId": 1,
+    "Diseases": [
+      {
+        "DiseaseId": 2,
+        "DiseaseName": "Грип",
+        "DiseaseDescription": "Вірусна інфекція.",
+        "DoctorId": 1,
+        "PatientId": 1,
+        "Symptoms": "кашель",
+        "Status": 0,
+        "Treatments": [
+          {
+            "MedicationId": 2,
+            "Dosage": "1 таблетка(200 мг) при необхідності не частіше ніж кожних 6 годин "
+          }
+        ],
+        "DateDiagnosed": "2024-05-21T12:56:11.5769408+03:00",
+        "DateCured": null,
+        "DateRecovered": null
+      }
+    ],
+    "Medications": [],
+    "AppointmentIds": []
+  }
+]

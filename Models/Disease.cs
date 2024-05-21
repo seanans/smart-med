@@ -2,8 +2,9 @@
 
 public class Disease
 {
-    private string _description;
     private string _name;
+    private string _description;
+    private string _profile;
 
     public int Id { get; set; }
 
@@ -19,5 +20,11 @@ public class Disease
         set => _description = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public DateTime DiagnosisDate { get; set; }
+    public string Profile
+    {
+        get => _profile;
+        set => _profile = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public List<string> Symptoms { get; set; } = new List<string>();
 }
