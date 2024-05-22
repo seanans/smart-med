@@ -7,5 +7,5 @@ public interface IDoctorService
     void SaveDoctors(List<Doctor> doctors);
     List<Doctor> LoadDoctors();
 
-    Doctor getDoctorById(int doctorId);
+    Doctor GetDoctorById(int doctorId);
 }

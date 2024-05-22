@@ -110,7 +110,7 @@ public class Menu
         Console.WriteLine("Ваші заплановані зустрічі:");
         for (var i = 0; i < appointments.Count; i++)
         {
-            var doctor = _doctorService.getDoctorById(appointments[i].DoctorId);
+            var doctor = _doctorService.GetDoctorById(appointments[i].DoctorId);
             Console.WriteLine($"{i + 1}. Лікар: {doctor.FullName}, Дата та час: {appointments[i].DateTime}");
         }
 
@@ -177,7 +177,7 @@ public class Menu
                 Console.WriteLine($"{i + 1}. Назва: {disease.Name}");
                 Console.WriteLine($"   Опис: {disease.Description}");
                 Console.WriteLine($"   Симптоми: {string.Join(", ", disease.Symptoms)}");
-                Console.WriteLine($"   Лікар: {_doctorService.getDoctorById(diseaseRecord.DoctorId).FullName}");
+                Console.WriteLine($"   Лікар: {_doctorService.GetDoctorById(diseaseRecord.DoctorId).FullName}");
                 Console.WriteLine($"   Статус: {diseaseRecord.Status}");
                 Console.WriteLine($"   Дата діагнозу: {diseaseRecord.DateDiagnosed}");
                 Console.WriteLine(

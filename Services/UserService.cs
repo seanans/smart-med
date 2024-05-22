@@ -3,20 +3,19 @@ using SmartMed.Models;
 
 namespace SmartMed.Services;
 
-public class UserService : IUserService
+/// <summary>
+///     Сервіс для управління користувачами, включаючи вхід, реєстрацію та вихід з системи.
+/// </summary>
+public class UserService(JsonDataService jsonDataService) : IUserService
 {
-    private readonly List<Doctor> _doctors;
-    private readonly JsonDataService _jsonDataService;
-    private readonly List<Patient> _patients;
-    private User _currentUser;
+    private readonly List<Doctor> _doctors = jsonDataService.LoadDoctors();
+    private readonly List<Patient> _patients = jsonDataService.LoadPatients();
+    private User? _currentUser;
 
-    public UserService(JsonDataService jsonDataService)
-    {
-        _jsonDataService = jsonDataService;
-        _patients = jsonDataService.LoadPatients();
-        _doctors = jsonDataService.LoadDoctors();
-    }
-
+    /// <summary>
+    ///     Метод для входу користувача в систему. Перевіряє ім'я користувача та пароль.
+    /// </summary>
+    /// <returns>Повертає об'єкт користувача, якщо вхід успішний, інакше - null.</returns>
     public User SignIn()
     {
         Console.Write("Ім'я користувача: ");
@@ -37,6 +36,9 @@ public class UserService : IUserService
         return null;
     }
 
+    /// <summary>
+    ///     Метод для реєстрації нового користувача. Підтримує реєстрацію як пацієнта, так і лікаря.
+    /// </summary>
     public void SignUp()
     {
         Console.WriteLine("Реєстрація");
@@ -75,7 +77,7 @@ public class UserService : IUserService
                     PhoneNumber = phoneNumber
                 };
                 _patients.Add((Patient)newUser);
-                _jsonDataService.SavePatients(_patients);
+                jsonDataService.SavePatients(_patients);
                 break;
             case "2":
                 var maxDoctorId = _doctors.Any() ? _doctors.Max(p => p.Id) : 0;
@@ -89,7 +91,7 @@ public class UserService : IUserService
                 var profilesInput = Console.ReadLine();
                 ((Doctor)newUser).Profiles = profilesInput.Split(',').Select(p => p.Trim()).ToList();
                 _doctors.Add((Doctor)newUser);
-                _jsonDataService.SaveDoctors(_doctors);
+                jsonDataService.SaveDoctors(_doctors);
                 break;
             default:
                 Console.WriteLine("Неправильний вибір ролі.");
@@ -99,13 +101,19 @@ public class UserService : IUserService
         Console.WriteLine("Реєстрація успішна!");
     }
 
+    /// <summary>
+    ///     Метод для виходу користувача з системи.
+    /// </summary>
     public void SignOut()
     {
         Console.WriteLine($"До побачення, {_currentUser?.FullName}!");
         _currentUser = null;
     }
 
-    public User GetCurrentUser()
+    /// <summary>
+    ///     Метод для виходу користувача з системи.
+    /// </summary>
+    public User? GetCurrentUser()
     {
         return _currentUser;
     }
