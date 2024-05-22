@@ -5,12 +5,12 @@ namespace SmartMed.Services;
 
 public class AppointmentService(JsonDataService jsonDataService) : IAppointmentService
 {
-    private readonly JsonDataService _jsonDataService = jsonDataService;
     private readonly List<Appointment> _appointments = jsonDataService.LoadAppointments();
+    private readonly JsonDataService _jsonDataService = jsonDataService;
 
     public void ScheduleAppointment(int doctorId, int patientId, DateTime date, string symptoms)
     {
-        int newId = _appointments.Any() ? _appointments.Max(a => a.Id) + 1 : 1;
+        var newId = _appointments.Any() ? _appointments.Max(a => a.Id) + 1 : 1;
         var appointment = new Appointment
         {
             Id = newId,
@@ -20,7 +20,7 @@ public class AppointmentService(JsonDataService jsonDataService) : IAppointmentS
             Symptoms = symptoms,
             AppointmentStatus = AppointmentStatus.Scheduled
         };
-        
+
         _appointments.Add(appointment);
         _jsonDataService.SaveAppointments(_appointments);
     }
@@ -46,12 +46,28 @@ public class AppointmentService(JsonDataService jsonDataService) : IAppointmentS
     }
 
 
-    public List<Appointment> GetAppointments() => _appointments;
+    public List<Appointment> GetAppointments()
+    {
+        return _appointments;
+    }
 
-    public void SaveAppointments(List<Appointment> appointments) => _jsonDataService.SaveAppointments(appointments);
+    public void SaveAppointments(List<Appointment> appointments)
+    {
+        _jsonDataService.SaveAppointments(appointments);
+    }
 
-    public List<Appointment> LoadAppointments() => _jsonDataService.LoadAppointments();
-    
-    public List<Appointment> GetAppointmentsByDoctor(int doctorId) => _appointments.Where(a => a.DoctorId == doctorId).ToList();
-    public List<Appointment> GetAppointmentsByPatient(int patientId) => _appointments.Where(a => a.PatientId == patientId).ToList();
+    public List<Appointment> LoadAppointments()
+    {
+        return _jsonDataService.LoadAppointments();
+    }
+
+    public List<Appointment> GetAppointmentsByDoctor(int doctorId)
+    {
+        return _appointments.Where(a => a.DoctorId == doctorId).ToList();
+    }
+
+    public List<Appointment> GetAppointmentsByPatient(int patientId)
+    {
+        return _appointments.Where(a => a.PatientId == patientId).ToList();
+    }
 }

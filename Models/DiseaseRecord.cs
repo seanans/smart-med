@@ -9,12 +9,13 @@ public class DiseaseRecord
     public int PatientId { get; set; }
     public string Symptoms { get; set; }
     public DiseaseStatus Status { get; set; }
-    public List<Treatment> Treatments { get; set; } = new List<Treatment>();
+    public List<Treatment> Treatments { get; set; } = new();
     public DateTime DateDiagnosed { get; set; }
-    
+
     public DateTime? DateCured { get; set; }
     public DateTime? DateRecovered { get; set; }
 }
+
 public class Treatment
 {
     public int MedicationId { get; set; }
@@ -28,7 +29,6 @@ public enum TreatmentStatus
     Taking,
     MotTaking
 }
-
 
 public enum DiseaseStatus
 {

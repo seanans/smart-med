@@ -3,8 +3,8 @@
 public class MedicationDTO
 {
     private string _description;
-    private string _name;
     private string _dosage;
+    private string _name;
 
     public string Dosage
     {
@@ -12,13 +12,8 @@ public class MedicationDTO
         set => _dosage = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public TreatmentStatus TreatmentStatus
-    {
-        get => _treatmentStatus;
-        set => _treatmentStatus = value;
-    }
+    public TreatmentStatus TreatmentStatus { get; set; }
 
-    private TreatmentStatus _treatmentStatus;
     public string Name
     {
         get => _name;

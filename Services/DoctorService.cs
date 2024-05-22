@@ -19,7 +19,7 @@ public class DoctorService(JsonDataService jsonDataService) : IDoctorService
 
     public Doctor getDoctorById(int doctorId)
     {
-       return _doctors.FirstOrDefault(d => d.Id == doctorId);
+        return _doctors.FirstOrDefault(d => d.Id == doctorId);
     }
 
     public List<Appointment> GetAppointments(int doctorId)

@@ -2,9 +2,9 @@
 
 public class Medication
 {
+    private string _contraindications;
     private string _description;
     private string _name;
-    private string _contraindications;
     private string _recommendedDosage;
 
     public int Id { get; set; }
@@ -32,6 +32,6 @@ public class Medication
         get => _recommendedDosage;
         set => _recommendedDosage = value ?? throw new ArgumentNullException(nameof(value));
     }
-    
-    public List<string> EffectiveSymptoms { get; set; } = new List<string>();
+
+    public List<string> EffectiveSymptoms { get; set; } = new();
 }

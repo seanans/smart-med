@@ -43,13 +43,13 @@ public class UserService : IUserService
 
         Console.Write("Ім'я користувача: ");
         var username = Console.ReadLine();
-        
+
         if (_patients.Any(u => u.Username == username) || _doctors.Any(u => u.Username == username))
         {
             Console.WriteLine("Користувач з таким ім'ям вже існує.");
             return;
         }
-        
+
         Console.Write("Пароль: ");
         var password = Console.ReadLine();
         Console.Write("Повне ім'я: ");
@@ -67,7 +67,7 @@ public class UserService : IUserService
         switch (roleChoice)
         {
             case "1":
-                int maxPatientId = _patients.Any() ? _patients.Max(p => p.Id) : 0;
+                var maxPatientId = _patients.Any() ? _patients.Max(p => p.Id) : 0;
                 newId = maxPatientId + 1;
                 newUser = new Patient
                 {
@@ -78,7 +78,7 @@ public class UserService : IUserService
                 _jsonDataService.SavePatients(_patients);
                 break;
             case "2":
-                int maxDoctorId = _doctors.Any() ? _doctors.Max(p => p.Id) : 0;
+                var maxDoctorId = _doctors.Any() ? _doctors.Max(p => p.Id) : 0;
                 newId = maxDoctorId + 1;
                 newUser = new Doctor
                 {
@@ -95,7 +95,7 @@ public class UserService : IUserService
                 Console.WriteLine("Неправильний вибір ролі.");
                 return;
         }
-        
+
         Console.WriteLine("Реєстрація успішна!");
     }
 

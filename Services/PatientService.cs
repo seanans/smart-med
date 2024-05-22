@@ -13,7 +13,7 @@ public class PatientService : IPatientService
         _jsonDataService = jsonDataService;
         _patients = jsonDataService.LoadPatients();
     }
-    
+
     public void SavePatients(List<Patient> patients)
     {
         _jsonDataService.SavePatients(patients);
