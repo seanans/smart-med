@@ -2,22 +2,15 @@
 
 public class MedicalRecord
 {
-    private List<DiseaseRecord> _diseases = [];
-    private List<Medication> _medications = [];
+    private List<DiseaseRecord> _diseaseRecords = [];
     private List<int> _appointmentIds = [];
 
     public int PatientId { get; set; }
 
-    public List<DiseaseRecord> Diseases
+    public List<DiseaseRecord> DiseasesRecords
     {
-        get => _diseases;
-        set => _diseases = value ?? throw new ArgumentNullException(nameof(value));
-    }
-
-    public List<Medication> Medications
-    {
-        get => _medications;
-        set => _medications = value ?? throw new ArgumentNullException(nameof(value));
+        get => _diseaseRecords;
+        set => _diseaseRecords = value ?? throw new ArgumentNullException(nameof(value));
     }
     
     public List<int> AppointmentIds

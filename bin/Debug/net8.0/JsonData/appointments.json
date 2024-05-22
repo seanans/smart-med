@@ -1,10 +1,18 @@
 ﻿[
   {
-    "Id": 1,
+    "Id": 2,
+    "DoctorId": 1,
+    "PatientId": 1,
+    "DateTime": "2024-05-22T11:00:00",
+    "Symptoms": "біль",
+    "AppointmentStatus": 1
+  },
+  {
+    "Id": 3,
     "DoctorId": 1,
     "PatientId": 1,
     "DateTime": "2024-05-22T09:00:00",
-    "Symptoms": "кашель",
+    "Symptoms": "біль у горлі, температура, кашель, слабкість, біль",
     "AppointmentStatus": 1
   }
 ]

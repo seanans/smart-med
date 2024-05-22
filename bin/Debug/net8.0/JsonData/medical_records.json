@@ -1,27 +1,50 @@
 ﻿[
   {
     "PatientId": 1,
-    "Diseases": [
+    "DiseasesRecords": [
       {
         "DiseaseId": 2,
         "DiseaseName": "Грип",
         "DiseaseDescription": "Вірусна інфекція.",
         "DoctorId": 1,
         "PatientId": 1,
-        "Symptoms": "кашель",
+        "Symptoms": "інфекція",
+        "Status": 0,
+        "Treatments": [],
+        "DateDiagnosed": "2024-05-22T13:08:34.63146+03:00",
+        "DateCured": null,
+        "DateRecovered": null
+      },
+      {
+        "DiseaseId": 2,
+        "DiseaseName": "Грип",
+        "DiseaseDescription": "Вірусна інфекція.",
+        "DoctorId": 1,
+        "PatientId": 1,
+        "Symptoms": "біль у горлі, висока температура, кашель, слабкість, біль, лихоманка, інфекція, запалення",
         "Status": 0,
         "Treatments": [
           {
+            "MedicationId": 1,
+            "Dosage": "500 мг кожні 4-6 годин",
+            "TreatmentStatus": 0
+          },
+          {
             "MedicationId": 2,
-            "Dosage": "1 таблетка(200 мг) при необхідності не частіше ніж кожних 6 годин "
+            "Dosage": "500 мг кожні 8 годин",
+            "TreatmentStatus": 0
+          },
+          {
+            "MedicationId": 3,
+            "Dosage": "300 мг кожні 5 годин",
+            "TreatmentStatus": 0
           }
         ],
-        "DateDiagnosed": "2024-05-21T12:56:11.5769408+03:00",
+        "DateDiagnosed": "2024-05-22T13:24:45.2749338+03:00",
         "DateCured": null,
         "DateRecovered": null
       }
     ],
-    "Medications": [],
-    "AppointmentIds": []
+    "AppointmentIds": [2, 3]
   }
 ]

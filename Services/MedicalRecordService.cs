@@ -18,8 +18,7 @@ public class MedicalRecordService(JsonDataService jsonDataService) : IMedicalRec
         var existingRecord = _medicalRecords.FirstOrDefault(r => r.PatientId == medicalRecord.PatientId);
         if (existingRecord != null)
         {
-            existingRecord.Diseases = medicalRecord.Diseases;
-            existingRecord.Medications = medicalRecord.Medications;
+            existingRecord.DiseasesRecords = medicalRecord.DiseasesRecords;
             existingRecord.AppointmentIds = medicalRecord.AppointmentIds;
         }
         else
@@ -32,14 +31,7 @@ public class MedicalRecordService(JsonDataService jsonDataService) : IMedicalRec
     public void AddDisease(int patientId, DiseaseRecord diseaseRecord)
     {
         var record = GetMedicalRecord(patientId);
-        record.Diseases.Add(diseaseRecord);
-        SaveMedicalRecord(record);
-    }
-
-    public void AddMedication(int patientId, Medication medication)
-    {
-        var record = GetMedicalRecord(patientId);
-        record.Medications.Add(medication);
+        record.DiseasesRecords.Add(diseaseRecord);
         SaveMedicalRecord(record);
     }
 

@@ -19,7 +19,17 @@ public class Treatment
 {
     public int MedicationId { get; set; }
     public string Dosage { get; set; }
+
+    public TreatmentStatus TreatmentStatus { get; set; }
 }
+
+public enum TreatmentStatus
+{
+    Taking,
+    MotTaking
+}
+
+
 public enum DiseaseStatus
 {
     Sick,

@@ -3,7 +3,6 @@
     "MedicalRecord": {
       "PatientId": 1,
       "Diseases": [],
-      "Medications": [],
       "AppointmentIds": []
     },
     "Id": 1,

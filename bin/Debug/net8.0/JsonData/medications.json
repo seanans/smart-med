@@ -1,16 +1,42 @@
 ﻿[
     {
         "Id": 1,
-        "Name": "Аспірин",
-        "ActiveIngredient": "Ацетилсаліцилова кислота",
-        "Contraindications": ["виразка шлунка"],
-        "Symptoms": ["біль", "лихоманка"]
+        "Name": "Парацетамол",
+        "Description": "Знеболювальне і жарознижувальне.",
+        "Contraindications": "Проблеми з печінкою, алкогольна залежність.",
+        "RecommendedDosage": "500 мг кожні 4-6 годин",
+        "EffectiveSymptoms": ["біль", "лихоманка"]
     },
     {
         "Id": 2,
+        "Name": "Амоксицилін",
+        "Description": "Антибіотик широкого спектру дії.",
+        "Contraindications": "Алергія на пеніцилін.",
+        "RecommendedDosage": "500 мг кожні 8 годин",
+        "EffectiveSymptoms": ["інфекція", "запалення"]
+    },
+    {
+        "Id": 3,
         "Name": "Ібупрофен",
-        "ActiveIngredient": "Ібупрофен",
-        "Contraindications": ["вагітність"],
-        "Symptoms": ["біль", "запалення"]
+        "Description": "Протизапальний та знеболювальний засіб.",
+        "Contraindications": "Виразка шлунка, хвороби нирок.",
+        "RecommendedDosage": "200-400 мг кожні 4-6 годин",
+        "EffectiveSymptoms": ["біль", "запалення", "лихоманка"]
+    },
+    {
+        "Id": 4,
+        "Name": "Лоратадин",
+        "Description": "Антигістамінний препарат.",
+        "Contraindications": "Підвищена чутливість до компонентів препарату.",
+        "RecommendedDosage": "10 мг один раз на день",
+        "EffectiveSymptoms": ["алергія", "свербіж", "риніт"]
+    },
+    {
+        "Id": 5,
+        "Name": "Метформін",
+        "Description": "Препарат для лікування діабету 2 типу.",
+        "Contraindications": "Ниркова недостатність, ацидоз.",
+        "RecommendedDosage": "500-1000 мг два рази на день",
+        "EffectiveSymptoms": ["гіперглікемія"]
     }
 ]

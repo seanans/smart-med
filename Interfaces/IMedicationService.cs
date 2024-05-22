@@ -8,4 +8,5 @@ public interface IMedicationService
     List<Medication> GetMedication();
     void SaveMedications(List<Medication> medications);
     List<Medication> LoadMedication();
+    Medication GetMedicationById(int medicationId);
 }
