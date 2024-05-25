@@ -1,15 +1,18 @@
 ﻿[
   {
-    "MedicalRecord": {
-      "PatientId": 1,
-      "Diseases": [],
-      "AppointmentIds": []
-    },
     "Id": 1,
     "Username": "p",
     "Password": "p",
-    "FullName": "pat",
-    "Email": "e",
-    "PhoneNumber": "1"
+    "FullName": "Patient1",
+    "Email": "patient@example.com",
+    "PhoneNumber": "223-441"
+  },
+  {
+    "Id": 2,
+    "Username": "p1",
+    "Password": "p1",
+    "FullName": "Кіану Рівз",
+    "Email": "p",
+    "PhoneNumber": "p"
   }
 ]

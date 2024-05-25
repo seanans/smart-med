@@ -2,6 +2,7 @@
 using SmartMed.Models;
 
 namespace SmartMed.Services;
+
 /// <summary>
 ///     Клас для управління даними пацієнтів.
 /// </summary>
@@ -17,6 +18,7 @@ public class PatientService(JsonDataService jsonDataService) : IPatientService
     {
         jsonDataService.SavePatients(patients);
     }
+
     /// <summary>
     ///     Завантажує список пацієнтів із JSON файлу.
     /// </summary>

@@ -3,48 +3,53 @@
     "PatientId": 1,
     "DiseasesRecords": [
       {
-        "DiseaseId": 2,
-        "DiseaseName": "Грип",
-        "DiseaseDescription": "Вірусна інфекція.",
-        "DoctorId": 1,
+        "DiseaseId": 21,
+        "DiseaseName": "Виразка шлунка",
+        "DiseaseDescription": "Утворення виразки на слизовій оболонці шлунка.",
+        "DoctorId": 22,
         "PatientId": 1,
-        "Symptoms": "інфекція",
-        "Status": 0,
+        "Symptoms": "біль у животі, нудота, втрата апетиту",
+        "Status": 1,
         "Treatments": [],
-        "DateDiagnosed": "2024-05-22T13:08:34.63146+03:00",
+        "DateDiagnosed": "2024-05-25T18:59:06.6426855+03:00",
         "DateCured": null,
-        "DateRecovered": null
-      },
+        "DateRecovered": "2024-05-26T00:00:00"
+      }
+    ],
+    "AppointmentIds": [
+      1
+    ]
+  },
+  {
+    "PatientId": 2,
+    "DiseasesRecords": [
       {
-        "DiseaseId": 2,
-        "DiseaseName": "Грип",
-        "DiseaseDescription": "Вірусна інфекція.",
-        "DoctorId": 1,
-        "PatientId": 1,
-        "Symptoms": "біль у горлі, висока температура, кашель, слабкість, біль, лихоманка, інфекція, запалення",
-        "Status": 0,
+        "DiseaseId": 20,
+        "DiseaseName": "Гастрит",
+        "DiseaseDescription": "Запалення слизової оболонки шлунка.",
+        "DoctorId": 22,
+        "PatientId": 2,
+        "Symptoms": "біль у животі, нудота, печія",
+        "Status": 1,
         "Treatments": [
           {
-            "MedicationId": 1,
-            "Dosage": "500 мг кожні 4-6 годин",
-            "TreatmentStatus": 0
-          },
-          {
-            "MedicationId": 2,
-            "Dosage": "500 мг кожні 8 годин",
-            "TreatmentStatus": 0
+            "MedicationId": 10,
+            "Dosage": "20-40 мг один раз на день",
+            "TreatmentStatus": 1
           },
           {
             "MedicationId": 3,
-            "Dosage": "300 мг кожні 5 годин",
-            "TreatmentStatus": 0
+            "Dosage": "200-400 мг кожні 4-6 годин",
+            "TreatmentStatus": 1
           }
         ],
-        "DateDiagnosed": "2024-05-22T13:24:45.2749338+03:00",
+        "DateDiagnosed": "2024-05-25T21:08:08.690701+03:00",
         "DateCured": null,
-        "DateRecovered": null
+        "DateRecovered": "2024-06-28T00:00:00"
       }
     ],
-    "AppointmentIds": [2, 3]
+    "AppointmentIds": [
+      3
+    ]
   }
 ]

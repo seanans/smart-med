@@ -17,7 +17,8 @@ public class AppointmentService(JsonDataService jsonDataService) : IAppointmentS
     /// <param name="patientId">Ідентифікатор пацієнта.</param>
     /// <param name="date">Дата і час зустрічі.</param>
     /// <param name="symptoms">Симптоми пацієнта.</param>
-    public void ScheduleAppointment(int doctorId, int patientId, DateTime date, string symptoms)
+    /// <param name="diseaseId">Ідентифікатор хвороби (якщо є).</param>
+    public void ScheduleAppointment(int doctorId, int patientId, DateTime date, string symptoms, int? diseaseId = null)
     {
         var newId = _appointments.Any() ? _appointments.Max(a => a.Id) + 1 : 1;
         var appointment = new Appointment
@@ -27,7 +28,8 @@ public class AppointmentService(JsonDataService jsonDataService) : IAppointmentS
             PatientId = patientId,
             DateTime = date,
             Symptoms = symptoms,
-            AppointmentStatus = AppointmentStatus.Scheduled
+            AppointmentStatus = AppointmentStatus.Scheduled,
+            DiseaseId = diseaseId
         };
 
         _appointments.Add(appointment);

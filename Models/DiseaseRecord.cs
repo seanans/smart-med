@@ -27,7 +27,7 @@ public class Treatment
 public enum TreatmentStatus
 {
     Taking,
-    MotTaking
+    NotTaking
 }
 
 public enum DiseaseStatus

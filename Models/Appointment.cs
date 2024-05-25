@@ -19,4 +19,6 @@ public class Appointment
     }
 
     public AppointmentStatus AppointmentStatus { get; set; }
+
+    public int? DiseaseId { get; set; }
 }

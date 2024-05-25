@@ -49,7 +49,7 @@ public class MedicalRecordService(JsonDataService jsonDataService) : IMedicalRec
     ///     Зберігає медичну картку пацієнта у JSON файл.
     /// </summary>
     /// <param name="medicalRecord">Медична картка.</param>
-    private void SaveMedicalRecord(MedicalRecord medicalRecord)
+    public void SaveMedicalRecord(MedicalRecord medicalRecord)
     {
         var existingRecord = _medicalRecords.FirstOrDefault(r => r.PatientId == medicalRecord.PatientId);
         if (existingRecord != null)
