@@ -4,8 +4,6 @@
 
 ## About
 
-Project for OOP KNU
-
 ## Documentation
 
 ## Developers
